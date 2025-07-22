@@ -26,7 +26,6 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.controller,
-      obscuringCharacter: '*',
       obscureText: widget.hasSuffix ? !isEyeOn : false,
       decoration: InputDecoration(
         hintText: widget.text,
