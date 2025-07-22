@@ -14,7 +14,7 @@ class Evently extends StatelessWidget {
       routes: {
         HomeScreen.routeName: (_) => HomeScreen(),
       },
-      // initialRoute: ,
+      initialRoute: HomeScreen.routeName,
     );
   }
 }
