@@ -1,3 +1,4 @@
+import 'package:evently/Screens/Auth/forget_password_screen.dart';
 import 'package:evently/Screens/Auth/login_screen.dart';
 import 'package:evently/Screens/Auth/register_screen.dart';
 import 'package:evently/Screens/home_screen.dart';
@@ -24,6 +25,7 @@ class Evently extends StatelessWidget {
         HomeScreen.routeName: (_) => HomeScreen(),
         LoginScreen.routeName: (_) => LoginScreen(),
         RegisterScreen.routeName: (_) => RegisterScreen(),
+        ForgetPasswordScreen.routeName: (_) => ForgetPasswordScreen(),
         OnboardingScreen.routeName: (_) => OnboardingScreen(),
       },
       initialRoute:

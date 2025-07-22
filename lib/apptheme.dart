@@ -10,6 +10,37 @@ class Apptheme {
   static ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: white,
 
+    inputDecorationTheme: InputDecorationTheme(
+      prefixIconColor: grey,
+      suffixIconColor: grey,
+      hintStyle: TextStyle(
+        fontSize: 16,
+        color: grey,
+        fontWeight: FontWeight.w500
+      ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(
+          color: grey,
+          width: 1,
+        ),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(
+          color: grey,
+          width: 1,
+        ),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(
+          color: grey,
+          width: 1,
+        ),
+      ),
+    ),
+
     textTheme: TextTheme(
       titleLarge: TextStyle(
         fontSize: 20,

@@ -1,3 +1,4 @@
+import 'package:evently/Screens/Auth/login_screen.dart';
 import 'package:evently/Screens/home_screen.dart';
 import 'package:evently/Screens/onboarding/onboarding.dart';
 import 'package:evently/Widgets/default_elevated_button.dart';
@@ -73,7 +74,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             currentindex == 0
                 ? Container(
                   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-                  height: MediaQuery.sizeOf(context).height * 0.12,
                   width: double.infinity,
                   child: DefaultElevatedButton(
                     text: 'Let\'s Start',
@@ -131,7 +131,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           await prefs.setBool('showHome', true);
                           Navigator.of(
                             context,
-                          ).pushReplacementNamed(HomeScreen.routeName);
+                          ).pushReplacementNamed(LoginScreen.routeName);
                         } else {
                           _controller.nextPage(
                             duration: Duration(milliseconds: 300),
