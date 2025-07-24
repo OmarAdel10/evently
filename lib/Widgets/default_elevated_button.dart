@@ -1,4 +1,4 @@
-import 'package:evently/apptheme.dart';
+import 'package:eventlyy/apptheme.dart';
 import 'package:flutter/material.dart';
 
 class DefaultElevatedButton extends StatelessWidget {

@@ -1,8 +1,8 @@
-import 'package:evently/Screens/Auth/login_screen.dart';
-import 'package:evently/Screens/home_screen.dart';
-import 'package:evently/Screens/onboarding/onboarding.dart';
-import 'package:evently/Widgets/default_elevated_button.dart';
-import 'package:evently/apptheme.dart';
+import 'package:eventlyy/Screens/Auth/login_screen.dart';
+import 'package:eventlyy/Screens/home_screen.dart';
+import 'package:eventlyy/Screens/onboarding/onboarding.dart';
+import 'package:eventlyy/Widgets/default_elevated_button.dart';
+import 'package:eventlyy/apptheme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
