@@ -10,6 +10,31 @@ class Apptheme {
   static ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: white,
 
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: primary,
+      iconSize: 24,
+      shape: CircleBorder(),
+      foregroundColor: white,
+    ),
+
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: primary,
+      selectedItemColor: white,
+      unselectedItemColor: white,
+      selectedLabelStyle: TextStyle(
+        fontSize: 12,
+        fontWeight: FontWeight.w700,
+        color: white,
+      ),
+      unselectedLabelStyle: TextStyle(
+        fontSize: 12,
+        fontWeight: FontWeight.w700,
+        color: white,
+      ),
+      type: BottomNavigationBarType.fixed,
+      elevation: 0,
+    ),
+
     inputDecorationTheme: InputDecorationTheme(
       prefixIconColor: grey,
       suffixIconColor: grey,

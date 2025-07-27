@@ -1,7 +1,7 @@
 import 'package:eventlyy/Screens/Auth/forget_password_screen.dart';
 import 'package:eventlyy/Screens/Auth/login_screen.dart';
 import 'package:eventlyy/Screens/Auth/register_screen.dart';
-import 'package:eventlyy/Screens/home_screen.dart';
+import 'package:eventlyy/Screens/Home/home_screen.dart';
 import 'package:eventlyy/Screens/onboarding/onboarding_screen.dart';
 import 'package:eventlyy/apptheme.dart';
 import 'package:flutter/material.dart';
