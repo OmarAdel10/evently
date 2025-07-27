@@ -8,9 +8,13 @@ class HomeTab extends StatelessWidget {
     return Column(
       children: [
         HomeHeader(),
-        Padding(
-          padding: const EdgeInsets.all(16),
-          child: EventItem(),
+        Expanded(
+          child: ListView.separated(
+            padding: EdgeInsets.all(16),
+            itemBuilder: (_, index) => EventItem(),
+            separatorBuilder: (_, __) => SizedBox(height: 16),
+            itemCount: 20,
+          ),
         ),
       ],
     );

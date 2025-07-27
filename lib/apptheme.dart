@@ -93,6 +93,11 @@ class Apptheme {
         fontWeight: FontWeight.w400,
         color: white,
       ),
+      labelLarge: TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.w700,
+        color: black,
+      ),
     )
   );
 
