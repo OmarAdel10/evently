@@ -10,6 +10,12 @@ class Apptheme {
   static ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: white,
 
+    tabBarTheme: TabBarThemeData(
+      dividerColor: Colors.transparent,
+      indicatorColor: Colors.transparent,
+      tabAlignment: TabAlignment.start,
+    ),
+
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: primary,
       iconSize: 24,
@@ -67,6 +73,11 @@ class Apptheme {
     ),
 
     textTheme: TextTheme(
+      headlineSmall: TextStyle(
+        fontSize: 24,
+        fontWeight: FontWeight.w700,
+        color: white,
+      ),
       titleLarge: TextStyle(
         fontSize: 20,
         fontWeight: FontWeight.w700,
@@ -76,6 +87,11 @@ class Apptheme {
         fontSize: 16,
         fontWeight: FontWeight.w500,
         color: black,
+      ),
+      titleSmall: TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+        color: white,
       ),
     )
   );
