@@ -8,11 +8,13 @@ class DefaultTextField extends StatefulWidget {
   final IconData icon;
   final bool hasSuffix;
   final TextEditingController controller;
+  final String? Function(String?)? validator;
   const DefaultTextField({ 
     required this.text,
     required this.icon,
     required this.controller,
     this.hasSuffix = false,
+    this.validator,
   });
 
   @override
@@ -25,7 +27,10 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      // focusNode: Focus(child:),
       controller: widget.controller,
+      validator: widget.validator,
       obscureText: widget.hasSuffix ? !isEyeOn : false,
       decoration: InputDecoration(
         hintText: widget.text,
