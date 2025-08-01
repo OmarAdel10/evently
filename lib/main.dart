@@ -4,13 +4,15 @@ import 'package:eventlyy/Screens/Auth/register_screen.dart';
 import 'package:eventlyy/Screens/Home/home_screen.dart';
 import 'package:eventlyy/Screens/onboarding/onboarding_screen.dart';
 import 'package:eventlyy/apptheme.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
   final showHome = prefs.getBool('showHome') ?? false;
+  await Firebase.initializeApp();
   runApp(Evently(showHome: showHome,));
 }
 
@@ -30,7 +32,7 @@ class Evently extends StatelessWidget {
       },
       // initialRoute:
       //     showHome ? LoginScreen.routeName : OnboardingScreen.routeName,
-      initialRoute: HomeScreen.routeName,
+      initialRoute: LoginScreen.routeName,
       theme: Apptheme.lightTheme,
       darkTheme: Apptheme.darkTheme,
       themeMode: ThemeMode.light,
