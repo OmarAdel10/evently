@@ -59,4 +59,9 @@ class FirebaseServices {
     event.id = doc.id;
     return doc.set(event);
   }
+
+
+  static Future<void> forgetPassword(String email) async {
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+  }
 }
