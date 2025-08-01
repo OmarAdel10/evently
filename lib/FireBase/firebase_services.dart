@@ -52,4 +52,11 @@ class FirebaseServices {
   }
 
   static Future<void> logOut() => FirebaseAuth.instance.signOut();
+
+  static Future<void> createEvent(EventModel event) async {
+    CollectionReference<EventModel> eventsCollection = getEventCollection();
+    DocumentReference<EventModel> doc = eventsCollection.doc();
+    event.id = doc.id;
+    return doc.set(event);
+  }
 }
