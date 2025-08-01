@@ -61,7 +61,7 @@ class FirebaseServices {
   }
 
 
-  static Future<void> forgetPassword(String email) async {
+  static Future<void> forgetPassword({required String email}) async {
     await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
   }
 }

@@ -1,9 +1,26 @@
+import 'package:eventlyy/FireBase/firebase_services.dart';
 import 'package:eventlyy/Widgets/default_elevated_button.dart';
+import 'package:eventlyy/Widgets/default_text_field.dart';
 import 'package:eventlyy/apptheme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
-class ForgetPasswordScreen extends StatelessWidget {
+class ForgetPasswordScreen extends StatefulWidget {
   static const String routeName = '/forgetPassword';
+
+  const ForgetPasswordScreen({super.key});
+
+  @override
+  State<ForgetPasswordScreen> createState() => _ForgetPasswordScreenState();
+}
+
+class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
+  final TextEditingController _emailcontroller = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  bool isPressed = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,19 +36,128 @@ class ForgetPasswordScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          Image.asset('assets/images/forget_password.png'),
-          SizedBox(height: 16),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            width: double.infinity,
-            child: DefaultElevatedButton(text: 'Reset Password', onPressed: () {}),
-          ),
-          SizedBox(height: 8,),
-          Text('< Does\'t work right now ! >', style: TextStyle(color: Apptheme.grey.withValues(alpha: 0.5), fontWeight: FontWeight.w900),)
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Image.asset('assets/images/forget_password.png'),
+            SizedBox(height: 16),
+            isPressed
+                ? Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        SizedBox(height: 16),
+                        Container(
+                          padding: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Apptheme.primary.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(16)
+                          ),
+                          child: Column(
+                            children: [
+                              Text(
+                                'Enter your email address and we will send you a link to reset your password.',
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                              SizedBox(height: 16),
+                              DefaultTextField(
+                                text: 'Email',
+                                icon: CupertinoIcons.mail_solid,
+                                controller: _emailcontroller,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Field Can Not Be Empty';
+                                  }
+                                  if (value.length < 5) {
+                                    return 'Email Can Not be Less Than 5 Characters';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 32),
+                        SizedBox(
+                          width: double.infinity,
+                          child: DefaultElevatedButton(
+                            text: 'Reset Password',
+                            onPressed: forgetPassword,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+                : SizedBox(),
+            SizedBox(height: 16),
+            isPressed
+                ? SizedBox()
+                : Container(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  width: double.infinity,
+                  child: DefaultElevatedButton(
+                    text: 'Reset Password',
+                    onPressed: () {
+                      isPressed = true;
+                      setState(() {});
+                    },
+                  ),
+                ),
+            SizedBox(height: 8),
+          ],
+        ),
       ),
     );
+  }
+
+  Future forgetPassword() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        await FirebaseServices.forgetPassword(
+          email: _emailcontroller.text.trim(),
+        );
+        showCupertinoDialog(
+          context: context,
+          builder:
+              (context) => CupertinoAlertDialog(
+                content: Center(
+                  child: Column(
+                    children: [
+                      Lottie.asset('assets/lottie/successfully.json'),
+                      // SizedBox(height: 16),
+                      Text('Password reset email sent!'),
+                    ],
+                  ),
+                ),
+              ),
+        );
+        Future.delayed(const Duration(seconds: 2), () {
+          Navigator.of(context).pop(); // Close dialog
+          Navigator.of(context).pop(); // Pop screen
+        });
+      } on FirebaseAuthException catch (e) {
+        showCupertinoDialog(
+          context: context,
+          builder:
+              (context) => CupertinoAlertDialog(
+                content: Center(
+                  child: Column(
+                    children: [
+                      Lottie.asset('assets/lottie/Failed.json'),
+                      Text(e.message.toString()),
+                    ],
+                  ),
+                ),
+              ),
+        );
+        Future.delayed(const Duration(seconds: 2), () {
+          Navigator.of(context).pop(); // Close dialog
+        });
+      }
+    }
   }
 }

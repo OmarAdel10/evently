@@ -18,7 +18,7 @@ Future<void> main() async {
 
 class Evently extends StatelessWidget {
   final bool showHome;
-  Evently({required this.showHome});
+  const Evently({super.key, required this.showHome});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

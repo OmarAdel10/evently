@@ -10,9 +10,11 @@ import 'package:flutter/material.dart';
 
 class LoginScreen extends StatelessWidget {
   static const String routeName = '/login';
-  TextEditingController _emailcontroller = TextEditingController();
-  TextEditingController _passwordcontroller = TextEditingController();
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailcontroller = TextEditingController();
+  final TextEditingController _passwordcontroller = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +82,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 16),
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     child: DefaultElevatedButton(
                       text: 'Login',
