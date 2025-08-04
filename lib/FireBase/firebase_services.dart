@@ -65,37 +65,38 @@ class FirebaseServices {
     await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
   }
 
-  static Future<UserCredential?> googleSignInFunc() async {
-    try {
-      final GoogleSignInAccount? gUser =
-          await GoogleSignIn.instance.authenticate();
-      if (gUser == null) return null;
-      final GoogleSignInAuthentication gAuth = gUser.authentication;
-      final credential = GoogleAuthProvider.credential(idToken: gAuth.idToken);
-      final userCredential = await FirebaseAuth.instance.signInWithCredential(
-        credential
-      );
-      final user = userCredential.user;
-      if (user != null) {
-        CollectionReference<UserModel> usersCollection = getUserCollection();
-        final doc = await usersCollection.doc(user.uid).get();
-        if (!doc.exists) {
-          await usersCollection
-              .doc(user.uid)
-              .set(
-                UserModel(
-                  id: user.uid,
-                  name: user.displayName!,
-                  email: user.email!,
-                ),
-              );
-        }
-      }
-      return userCredential;
-    } on FirebaseAuthException catch (e) {
-      print(e);
-      return null;
-    }
-  }
+  // static Future<UserCredential?> googleSignInFunc() async {
+  //   try {
+  //     final GoogleSignInAccount? gUser = await GoogleSignIn(
+  //       serverClientId: "187369570776-lkcjld6k99eq1jbftfppjuk9pnrvo09h.apps.googleusercontent.com",
+  //     ).signIn();
+  //     if (gUser == null) return null;
+  //     final GoogleSignInAuthentication gAuth = gUser.authentication;
+  //     final credential = GoogleAuthProvider.credential(idToken: gAuth.idToken);
+  //     final userCredential = await FirebaseAuth.instance.signInWithCredential(
+  //       credential
+  //     );
+  //     final user = userCredential.user;
+  //     if (user != null) {
+  //       CollectionReference<UserModel> usersCollection = getUserCollection();
+  //       final doc = await usersCollection.doc(user.uid).get();
+  //       if (!doc.exists) {
+  //         await usersCollection
+  //             .doc(user.uid)
+  //             .set(
+  //               UserModel(
+  //                 id: user.uid,
+  //                 name: user.displayName!,
+  //                 email: user.email!,
+  //               ),
+  //             );
+  //       }
+  //     }
+  //     return userCredential;
+  //   } on FirebaseAuthException catch (e) {
+  //     print(e.message);
+  //     return null;
+  //   }
+  // }
 
 }

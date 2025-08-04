@@ -62,7 +62,6 @@ class LoginScreen extends StatelessWidget {
                       return null;
                     },
                   ),
-                  SizedBox(height: 10),
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
@@ -81,7 +80,6 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 16),
                   SizedBox(
                     width: double.infinity,
                     child: DefaultElevatedButton(
@@ -100,7 +98,7 @@ class LoginScreen extends StatelessWidget {
                       },
                     ),
                   ),
-                  SizedBox(height: 16),
+                  SizedBox(height: 5),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -153,7 +151,9 @@ class LoginScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 24),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      // FirebaseServices.googleSignInFunc();
+                    },
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(vertical: 16),
                       elevation: 0,

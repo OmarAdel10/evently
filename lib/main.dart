@@ -12,8 +12,15 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
   final showHome = prefs.getBool('showHome') ?? false;
-  await Firebase.initializeApp();
-  runApp(Evently(showHome: showHome,));
+  await Firebase.initializeApp(
+    // options: FirebaseOptions(
+    //   apiKey: "AIzaSyCF45als5LN3ARHTCrjQ5NvLe4VxODx6Og",
+    //   appId: "1:187369570776:android:d8d7e0d5a7b8a6ba53b2ad",
+    //   messagingSenderId: "187369570776",
+    //   projectId: "evently-b591c",
+    // ),
+  );
+  runApp(Evently(showHome: showHome));
 }
 
 class Evently extends StatelessWidget {
