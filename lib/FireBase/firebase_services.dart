@@ -54,6 +54,10 @@ class FirebaseServices {
 
   static Future<void> logOut() => FirebaseAuth.instance.signOut();
 
+  static Future<void> forgetPassword({required String email}) async {
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+  }
+
   static Future<void> createEvent(EventModel event) async {
     CollectionReference<EventModel> eventsCollection = getEventCollection();
     DocumentReference<EventModel> doc = eventsCollection.doc();
@@ -61,8 +65,11 @@ class FirebaseServices {
     return doc.set(event);
   }
 
-  static Future<void> forgetPassword({required String email}) async {
-    await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+  static Future<List<EventModel>> getEvents() async {
+    CollectionReference<EventModel> eventsCollection = getEventCollection();
+    QuerySnapshot<EventModel> querySnapShot =
+        await eventsCollection.orderBy('dateTime').get();
+    return querySnapShot.docs.map((docSnapShot) => docSnapShot.data()).toList();
   }
 
   // static Future<UserCredential?> googleSignInFunc() async {
@@ -98,5 +105,4 @@ class FirebaseServices {
   //     return null;
   //   }
   // }
-
 }
