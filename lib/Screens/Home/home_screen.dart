@@ -1,3 +1,4 @@
+import 'package:eventlyy/Screens/Home/Events/create_event_screen.dart';
 import 'package:eventlyy/Screens/Home/Tabs/homeTab/home_tab.dart';
 import 'package:eventlyy/Screens/Home/Tabs/loveTab/love_tab.dart';
 import 'package:eventlyy/Screens/Home/Tabs/mapTab/map_tab.dart';
@@ -26,7 +27,9 @@ class _HomeScreenState extends State<HomeScreen> {
       body: tabs[_currentIndex],
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        heroTag: 'create-event',
+        onPressed:
+            () => Navigator.of(context).pushNamed(CreateEventScreen.routeName),
         child: Icon(CupertinoIcons.add),
       ),
       bottomNavigationBar: BottomAppBar(

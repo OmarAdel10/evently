@@ -1,8 +1,15 @@
+import 'package:eventlyy/Models/event_model.dart';
 import 'package:eventlyy/apptheme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class EventItem extends StatelessWidget {
+  final EventModel event;
+  const EventItem({
+    required this.event,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,7 +24,7 @@ class EventItem extends StatelessWidget {
             clipBehavior: Clip.antiAlias,
             borderRadius: BorderRadiusGeometry.circular(16),
             child: Image.asset(
-              'assets/images/sport.png',
+              'assets/images/${event.category.imageName}.png',
               height: MediaQuery.sizeOf(context).height * 0.23,
             ),
           ),
@@ -31,13 +38,13 @@ class EventItem extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  '21',
+                  '${event.dateTime.day}',
                   style: Theme.of(
                     context,
                   ).textTheme.titleLarge!.copyWith(fontSize: 16),
                 ),
                 Text(
-                  'Nov',
+                  DateFormat('MMM').format(event.dateTime),
                   style: Theme.of(
                     context,
                   ).textTheme.titleLarge!.copyWith(fontSize: 16),
@@ -60,7 +67,7 @@ class EventItem extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      'data',
+                      event.title,
                       style: Theme.of(context).textTheme.labelLarge,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,

@@ -2,19 +2,22 @@ import 'package:eventlyy/apptheme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
 class DefaultTextField extends StatefulWidget {
   final String text;
-  final IconData icon;
+  final IconData? icon;
   final bool hasSuffix;
+  final bool hasPrefix;
+  final int maxLines;
   final TextEditingController controller;
   final String? Function(String?)? validator;
-  const DefaultTextField({ 
+  const DefaultTextField({
     required this.text,
-    required this.icon,
+    this.icon,
     required this.controller,
     this.hasSuffix = false,
+    this.hasPrefix = false,
     this.validator,
+    this.maxLines = 1,
   });
 
   @override
@@ -28,25 +31,27 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
   Widget build(BuildContext context) {
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      // focusNode: Focus(child:),
+      maxLines: widget.maxLines,
       controller: widget.controller,
       validator: widget.validator,
       obscureText: widget.hasSuffix ? !isEyeOn : false,
       decoration: InputDecoration(
         hintText: widget.text,
-        prefixIcon: Icon(widget.icon, size: 24, color: Apptheme.grey),
-        suffixIcon: widget.hasSuffix
-            ? IconButton(
-                onPressed: () {
-                  setState(() {
-                    isEyeOn = !isEyeOn;
-                  });
-                },
-                icon: isEyeOn
-                    ? Icon(CupertinoIcons.eye_fill)
-                    : Icon(CupertinoIcons.eye_slash_fill),
-              )
-            : null,
+        prefixIcon: widget.hasPrefix ? Icon(widget.icon, size: 24, color: Apptheme.grey) : null,
+        suffixIcon:
+            widget.hasSuffix
+                ? IconButton(
+                  onPressed: () {
+                    setState(() {
+                      isEyeOn = !isEyeOn;
+                    });
+                  },
+                  icon:
+                      isEyeOn
+                          ? Icon(CupertinoIcons.eye_fill)
+                          : Icon(CupertinoIcons.eye_slash_fill),
+                )
+                : null,
       ),
     );
   }

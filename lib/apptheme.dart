@@ -10,6 +10,18 @@ class Apptheme {
   static ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: white,
 
+    appBarTheme: AppBarTheme(
+      centerTitle: true,
+      elevation: 2,
+      backgroundColor: white,
+      foregroundColor: primary,
+      titleTextStyle: TextStyle(
+        fontSize: 22,
+        fontWeight: FontWeight.w400,
+        color: primary,
+      ),
+    ),
+
     tabBarTheme: TabBarThemeData(
       dividerColor: Colors.transparent,
       indicatorColor: Colors.transparent,
@@ -47,28 +59,19 @@ class Apptheme {
       hintStyle: TextStyle(
         fontSize: 16,
         color: grey,
-        fontWeight: FontWeight.w500
+        fontWeight: FontWeight.w500,
       ),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(
-          color: grey,
-          width: 1,
-        ),
+        borderSide: BorderSide(color: grey, width: 1),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(
-          color: grey,
-          width: 1,
-        ),
+        borderSide: BorderSide(color: grey, width: 1),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(
-          color: grey,
-          width: 1,
-        ),
+        borderSide: BorderSide(color: grey, width: 1),
       ),
     ),
 
@@ -98,7 +101,7 @@ class Apptheme {
         fontWeight: FontWeight.w700,
         color: black,
       ),
-    )
+    ),
   );
 
   static ThemeData darkTheme = ThemeData();
