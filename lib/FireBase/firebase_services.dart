@@ -59,6 +59,13 @@ class FirebaseServices {
     await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
   }
 
+  static Future<String> getUserName() async {
+    CollectionReference<UserModel> usersCollection = getUserCollection();
+    DocumentSnapshot<UserModel> docSnapShot =
+        await usersCollection.doc(FirebaseAuth.instance.currentUser!.uid).get();
+    return docSnapShot.get('name');
+  }
+
   static Future<void> createEvent(EventModel event) async {
     CollectionReference<EventModel> eventsCollection = getEventCollection();
     DocumentReference<EventModel> doc = eventsCollection.doc();

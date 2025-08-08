@@ -6,9 +6,7 @@ import 'package:intl/intl.dart';
 
 class EventItem extends StatelessWidget {
   final EventModel event;
-  const EventItem({
-    required this.event,
-  });
+  const EventItem({required this.event});
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +48,22 @@ class EventItem extends StatelessWidget {
                   ).textTheme.titleLarge!.copyWith(fontSize: 16),
                 ),
               ],
+            ),
+          ),
+          Positioned(
+            top: 8,
+            right: 8,
+            child: Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Apptheme.white,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Text('Created By ${event.userCreatedThisEventName}.',
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge!.copyWith(fontSize: 12),
+              ),
             ),
           ),
           Positioned(
