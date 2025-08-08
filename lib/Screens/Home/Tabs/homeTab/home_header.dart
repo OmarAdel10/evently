@@ -5,7 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomeHeader extends StatefulWidget {
-  const HomeHeader({super.key});
+  final void Function(CategoryModel? category) filterEvents;
+  HomeHeader({required this.filterEvents});
 
   @override
   State<HomeHeader> createState() => _HomeHeaderState();
@@ -43,6 +44,11 @@ class _HomeHeaderState extends State<HomeHeader> {
                 onTap: (index) {
                   if (_currentIndex == index) return;
                   _currentIndex = index;
+                  CategoryModel? selectedCategory =
+                      _currentIndex == 0
+                          ? null
+                          : CategoryModel.categories[_currentIndex - 1];
+                  widget.filterEvents(selectedCategory);
                   setState(() {});
                 },
                 tabs: [
@@ -58,7 +64,9 @@ class _HomeHeaderState extends State<HomeHeader> {
                     (category) => TabbarItem(
                       icon: category.icon,
                       label: category.name,
-                      isSelected: _currentIndex == CategoryModel.categories.indexOf(category) + 1,
+                      isSelected:
+                          _currentIndex ==
+                          CategoryModel.categories.indexOf(category) + 1,
                       selectedBackgroundColor: Apptheme.white,
                       selectedForegroundColor: Apptheme.primary,
                       unselectedForegroundColor: Apptheme.white,
