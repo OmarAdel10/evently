@@ -34,7 +34,7 @@ class FirebaseServices {
       id: credential.user!.uid,
       name: name,
       email: email,
-      favouriteEventsIds: []
+      favouriteEventsIds: [],
     );
     CollectionReference<UserModel> usersCollection = getUserCollection();
     await usersCollection.doc(user.id).set(user);
@@ -71,6 +71,26 @@ class FirebaseServices {
     QuerySnapshot<EventModel> querySnapShot =
         await eventsCollection.orderBy('dateTime').get();
     return querySnapShot.docs.map((docSnapShot) => docSnapShot.data()).toList();
+  }
+
+  static Future<void> addEventToFavourites(String eventId) {
+    CollectionReference<UserModel> usersCollection = getUserCollection();
+    DocumentReference<UserModel> userDoc = usersCollection.doc(
+      FirebaseAuth.instance.currentUser!.uid,
+    );
+    return userDoc.update({
+      'favouriteEventsIds' : FieldValue.arrayUnion([eventId])
+    });
+  }
+
+  static Future<void> removeEventFromFavourites(String eventId) {
+    CollectionReference<UserModel> usersCollection = getUserCollection();
+    DocumentReference<UserModel> userDoc = usersCollection.doc(
+      FirebaseAuth.instance.currentUser!.uid,
+    );
+    return userDoc.update({
+      'favouriteEventsIds' : FieldValue.arrayRemove([eventId])
+    });
   }
 
   // static Future<UserCredential?> googleSignInFunc() async {
