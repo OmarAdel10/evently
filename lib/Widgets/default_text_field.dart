@@ -31,6 +31,7 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
   Widget build(BuildContext context) {
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
+      onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
       maxLines: widget.maxLines,
       controller: widget.controller,
       validator: widget.validator,

@@ -1,12 +1,17 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:delightful_toast/delight_toast.dart';
+import 'package:delightful_toast/toast/components/toast_card.dart';
+import 'package:delightful_toast/toast/utils/enums.dart';
 import 'package:eventlyy/FireBase/firebase_services.dart';
 import 'package:eventlyy/Screens/Auth/login_screen.dart';
 import 'package:eventlyy/Screens/Home/home_screen.dart';
 import 'package:eventlyy/Widgets/default_elevated_button.dart';
 import 'package:eventlyy/Widgets/default_text_field.dart';
 import 'package:eventlyy/apptheme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const String routeName = '/register';
@@ -95,65 +100,65 @@ class _RegisterScreenState extends State<RegisterScreen> {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Stack(
-            children: [
-              AnimatedPositioned(
-                duration: Duration(seconds: 1),
-                curve: Curves.easeInOut,
-                right: 0,
-                left: 0,
-                top: _isCentered ? size.height * 0.4 : size.height * 0.1,
-                child: Hero(
-                  tag: 'evently-logo',
-                  child: Image.asset(
-                    'assets/images/logo.png',
-                    height: size.height * 0.2,
-                  ),
-                ),
-              ),
-
-              if (_showText)
-                Positioned(
-                  left: 0,
+          child: SingleChildScrollView(
+            child: Stack(
+              children: [
+                AnimatedPositioned(
+                  duration: Duration(seconds: 1),
+                  curve: Curves.easeInOut,
                   right: 0,
-                  top: size.height * 0.6,
-                  child: Center(
-                    child:
-                        !_eraseText
-                            ? AnimatedTextKit(
-                              animatedTexts: [
-                                TypewriterAnimatedText(
-                                  _text,
-                                  textStyle: textTheme.headlineSmall!.copyWith(
-                                    color: Apptheme.primary,
-                                    fontSize: 22,
-                                  ),
-                                  speed: Duration(milliseconds: 70),
-                                  cursor: '|',
-                                ),
-                              ],
-                              onFinished: () {
-                                setState(() {
-                                  _eraseText = true;
-                                });
-                                _eraseTextAnimated();
-                              },
-                              isRepeatingAnimation: false,
-                            )
-                            : Text(
-                              _displayedText + '|',
-                              style: textTheme.headlineSmall!.copyWith(
-                                color: Apptheme.primary,
-                                fontSize: 22,
-                              ),
-                            ),
+                  left: 0,
+                  top: _isCentered ? size.height * 0.4 : size.height * 0.1,
+                  child: Hero(
+                    tag: 'evently-logo',
+                    child: Image.asset(
+                      'assets/images/logo.png',
+                      height: size.height * 0.2,
+                    ),
                   ),
                 ),
-
-              AnimatedOpacity(
-                duration: Duration(seconds: 1),
-                opacity: _showLoginForm ? 1.0 : 0.0,
-                child: SingleChildScrollView(
+            
+                if (_showText)
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    top: size.height * 0.6,
+                    child: Center(
+                      child:
+                          !_eraseText
+                              ? AnimatedTextKit(
+                                animatedTexts: [
+                                  TypewriterAnimatedText(
+                                    _text,
+                                    textStyle: textTheme.headlineSmall!.copyWith(
+                                      color: Apptheme.primary,
+                                      fontSize: 22,
+                                    ),
+                                    speed: Duration(milliseconds: 70),
+                                    cursor: '|',
+                                  ),
+                                ],
+                                onFinished: () {
+                                  setState(() {
+                                    _eraseText = true;
+                                  });
+                                  _eraseTextAnimated();
+                                },
+                                isRepeatingAnimation: false,
+                              )
+                              : Text(
+                                _displayedText + '|',
+                                style: textTheme.headlineSmall!.copyWith(
+                                  color: Apptheme.primary,
+                                  fontSize: 22,
+                                ),
+                              ),
+                    ),
+                  ),
+            
+                AnimatedOpacity(
+                  duration: Duration(seconds: 1),
+                  opacity: _showLoginForm ? 1.0 : 0.0,
                   child: Form(
                     key: _formKey,
                     child: Column(
@@ -219,6 +224,39 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   Navigator.of(
                                     context,
                                   ).pop();
+                                }).catchError((error) {
+                                  if(error is FirebaseAuthException){
+                                    DelightToastBar(
+                                          position: DelightSnackbarPosition.top,
+                                          autoDismiss: true,
+                                          snackbarDuration: Duration(
+                                            seconds: 2,
+                                          ),
+                                          builder: (context) {
+                                            return ToastCard(
+                                              color: Apptheme.red,
+                                              leading: SizedBox(
+                                                width: 30,
+                                                height: 30,
+                                                child: Transform.scale(
+                                                  scale: 4,
+                                                  child: Lottie.asset(
+                                                    'assets/lottie/Failed.json',
+                                                  ),
+                                                ),
+                                              ),
+                                              title: Text(
+                                                '${error.message}',
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Apptheme.white,
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        ).show(context);
+                                  }
                                 });
                               }
                             },
@@ -254,16 +292,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                 ),
-              ),
-              Positioned(
-                left: 0,
-                top: 0,
-                child: IconButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  icon: Icon(Icons.arrow_back_ios, color: Apptheme.primary),
+                Positioned(
+                  left: 0,
+                  top: 0,
+                  child: IconButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: Icon(Icons.arrow_back_ios, color: Apptheme.primary),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
