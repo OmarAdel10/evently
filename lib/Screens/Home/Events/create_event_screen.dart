@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delightful_toast/delight_toast.dart';
 import 'package:delightful_toast/toast/components/toast_card.dart';
 import 'package:delightful_toast/toast/utils/enums.dart';
@@ -33,11 +34,17 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   int _currentIndex = 0;
   CategoryModel selectedCategory = CategoryModel.categories.first;
   late bool isLoading;
+  late String userName;
 
   @override
   void initState() {
     super.initState();
+    getUserNAME();
     isLoadingShimmer();
+  }
+
+  Future<void> getUserNAME() async {
+    userName = await FirebaseServices.getUserName();
   }
 
   Future<void> isLoadingShimmer() async {
@@ -357,7 +364,8 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   void createEvent() {
     if (_formKey.currentState!.validate() &&
         selectedDate != null &&
-        selectedTime != null) {
+        selectedTime != null &&
+        userName != null) {
       DateTime dateTime = DateTime(
         selectedDate!.year,
         selectedDate!.month,
@@ -367,6 +375,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
       );
       EventModel event = EventModel(
         userId: FirebaseAuth.instance.currentUser!.uid,
+        userCreatedThisEventName: userName,
         title: _eventController.text,
         description: _descriptionController.text,
         category: selectedCategory,
@@ -374,32 +383,32 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
       );
       FirebaseServices.createEvent(event).then((_) {
         Navigator.of(context).pop();
-          DelightToastBar(
-            position: DelightSnackbarPosition.top,
-            autoDismiss: true,
-            snackbarDuration: Duration(seconds: 2),
-            builder: (context) {
-              return ToastCard(
-                color: Colors.green,
-                leading: SizedBox(
-                  width: 30,
-                  height: 30,
-                  child: Transform.scale(
-                    scale: 4,
-                    child: Lottie.asset('assets/lottie/successfully2.json'),
-                  ),
+        DelightToastBar(
+          position: DelightSnackbarPosition.top,
+          autoDismiss: true,
+          snackbarDuration: Duration(seconds: 2),
+          builder: (context) {
+            return ToastCard(
+              color: Colors.green,
+              leading: SizedBox(
+                width: 30,
+                height: 30,
+                child: Transform.scale(
+                  scale: 4,
+                  child: Lottie.asset('assets/lottie/successfully2.json'),
                 ),
-                title: Text(
-                  'Event Added Successfully !',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: Apptheme.white,
-                  ),
+              ),
+              title: Text(
+                'Event Added Successfully !',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Apptheme.white,
                 ),
-              );
-            },
-          ).show(context);
+              ),
+            );
+          },
+        ).show(context);
       });
     }
   }

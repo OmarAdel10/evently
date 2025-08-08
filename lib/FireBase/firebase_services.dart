@@ -34,7 +34,7 @@ class FirebaseServices {
       id: credential.user!.uid,
       name: name,
       email: email,
-      favouriteEventsIds: []
+      favouriteEventsIds: [],
     );
     CollectionReference<UserModel> usersCollection = getUserCollection();
     await usersCollection.doc(user.id).set(user);
@@ -57,6 +57,13 @@ class FirebaseServices {
 
   static Future<void> forgetPassword({required String email}) async {
     await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+  }
+
+  static Future<String> getUserName() async {
+    CollectionReference<UserModel> usersCollection = getUserCollection();
+    DocumentSnapshot<UserModel> docSnapShot =
+        await usersCollection.doc(FirebaseAuth.instance.currentUser!.uid).get();
+    return docSnapShot.get('name');
   }
 
   static Future<void> createEvent(EventModel event) async {
