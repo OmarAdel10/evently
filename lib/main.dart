@@ -24,12 +24,17 @@ Future<void> main() async {
     //   projectId: "evently-b591c",
     // ),
   );
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (context) => EventProvider()..getEvents(),),
-      ChangeNotifierProvider(create: (context) => UserProvider(),),
-    ],
-    child: Evently(showHome: showHome)));
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => EventProvider()..getEvents(),
+        ),
+        ChangeNotifierProvider(create: (context) => UserProvider()),
+      ],
+      child: Evently(showHome: showHome),
+    ),
+  );
 }
 
 class Evently extends StatelessWidget {
@@ -49,7 +54,7 @@ class Evently extends StatelessWidget {
       },
       // initialRoute:
       //     showHome ? LoginScreen.routeName : OnboardingScreen.routeName,
-      initialRoute: HomeScreen.routeName,
+      initialRoute: LoginScreen.routeName,
       theme: Apptheme.lightTheme,
       darkTheme: Apptheme.darkTheme,
       themeMode: ThemeMode.light,
