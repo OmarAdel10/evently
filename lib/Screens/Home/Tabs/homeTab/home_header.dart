@@ -1,13 +1,12 @@
 import 'package:eventlyy/Models/category_model.dart';
+import 'package:eventlyy/Providers/event_provider.dart';
 import 'package:eventlyy/Screens/Home/Tabs/homeTab/tabBar_item.dart';
 import 'package:eventlyy/apptheme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomeHeader extends StatefulWidget {
-  final void Function(CategoryModel? category) filterEvents;
-  HomeHeader({required this.filterEvents});
-
   @override
   State<HomeHeader> createState() => _HomeHeaderState();
 }
@@ -17,6 +16,7 @@ class _HomeHeaderState extends State<HomeHeader> {
 
   @override
   Widget build(BuildContext context) {
+    EventProvider eventProvider = Provider.of<EventProvider>(context);
     TextTheme textTheme = Theme.of(context).textTheme;
     return Container(
       padding: EdgeInsets.only(left: 16, bottom: 16),
@@ -48,7 +48,7 @@ class _HomeHeaderState extends State<HomeHeader> {
                       _currentIndex == 0
                           ? null
                           : CategoryModel.categories[_currentIndex - 1];
-                  widget.filterEvents(selectedCategory);
+                  eventProvider.filterEvents(selectedCategory);
                   setState(() {});
                 },
                 tabs: [

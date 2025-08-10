@@ -59,7 +59,7 @@ class EventItem extends StatelessWidget {
                 color: Apptheme.white,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Text('Created By ${event.userCreatedThisEventName}.',
+              child: Text('Created By ${event.userCreatedThisEventName}',
                 style: Theme.of(
                   context,
                 ).textTheme.titleLarge!.copyWith(fontSize: 12),

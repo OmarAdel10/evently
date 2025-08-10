@@ -1,55 +1,28 @@
 import 'package:eventlyy/FireBase/firebase_services.dart';
 import 'package:eventlyy/Models/category_model.dart';
 import 'package:eventlyy/Models/event_model.dart';
+import 'package:eventlyy/Providers/event_provider.dart';
 import 'package:eventlyy/Screens/Home/Events/event_item.dart';
 import 'package:eventlyy/Screens/Home/Tabs/homeTab/home_header.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class HomeTab extends StatefulWidget {
-  @override
-  State<HomeTab> createState() => _HomeTabState();
-}
-
-class _HomeTabState extends State<HomeTab> {
-  List<EventModel> allEvents = [];
-  List<EventModel> dispalyedEvents = [];
-
-  @override
-  void initState() {
-    super.initState();
-    getEvents();
-  }
-
+class HomeTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    EventProvider eventProvider = Provider.of<EventProvider>(context);
     return Column(
       children: [
-        HomeHeader(filterEvents: filterEvents),
+        HomeHeader(),
         Expanded(
           child: ListView.separated(
             padding: EdgeInsets.all(16),
-            itemBuilder: (_, index) => EventItem(event: dispalyedEvents[index]),
+            itemBuilder: (_, index) => EventItem(event: eventProvider.dispalyedEvents[index]),
             separatorBuilder: (_, __) => SizedBox(height: 16),
-            itemCount: dispalyedEvents.length,
+            itemCount: eventProvider.dispalyedEvents.length,
           ),
         ),
       ],
     );
-  }
-
-  Future<void> getEvents() async {
-    allEvents = await FirebaseServices.getEvents();
-    dispalyedEvents = allEvents;
-    setState(() {});
-  }
-
-  void filterEvents(CategoryModel? category) {
-    if (category == null) {
-      dispalyedEvents = allEvents;
-    } else {
-    dispalyedEvents =
-        allEvents.where((event) => event.category == category).toList();
-    }
-    setState(() {});
   }
 }
