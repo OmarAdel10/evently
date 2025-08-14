@@ -19,7 +19,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
-  List<Widget> tabs = [HomeTab(), MapTab(), LoveTab(), ProfileTab()];
+  List<Widget> tabs = [HomeTab(), MapTab(), HomeTab(),LoveTab(), ProfileTab()];
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
               activeIcon: BottomNavbarItem(icon: CupertinoIcons.map_fill),
               label: 'Map',
             ),
+            BottomNavigationBarItem(icon: SizedBox(), label: ''),
             BottomNavigationBarItem(
               icon: BottomNavbarItem(icon: CupertinoIcons.heart),
               activeIcon: BottomNavbarItem(icon: CupertinoIcons.heart_fill),
