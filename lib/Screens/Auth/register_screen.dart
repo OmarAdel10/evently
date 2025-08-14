@@ -3,6 +3,7 @@ import 'package:delightful_toast/delight_toast.dart';
 import 'package:delightful_toast/toast/components/toast_card.dart';
 import 'package:delightful_toast/toast/utils/enums.dart';
 import 'package:eventlyy/FireBase/firebase_services.dart';
+import 'package:eventlyy/Providers/user_provider.dart';
 import 'package:eventlyy/Screens/Auth/login_screen.dart';
 import 'package:eventlyy/Screens/Home/home_screen.dart';
 import 'package:eventlyy/Widgets/default_elevated_button.dart';
@@ -12,6 +13,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const String routeName = '/register';
@@ -117,7 +119,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                 ),
-            
+
                 if (_showText)
                   Positioned(
                     left: 0,
@@ -130,10 +132,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 animatedTexts: [
                                   TypewriterAnimatedText(
                                     _text,
-                                    textStyle: textTheme.headlineSmall!.copyWith(
-                                      color: Apptheme.primary,
-                                      fontSize: 22,
-                                    ),
+                                    textStyle: textTheme.headlineSmall!
+                                        .copyWith(
+                                          color: Apptheme.primary,
+                                          fontSize: 22,
+                                        ),
                                     speed: Duration(milliseconds: 70),
                                     cursor: '|',
                                   ),
@@ -155,7 +158,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                     ),
                   ),
-            
+
                 AnimatedOpacity(
                   duration: Duration(seconds: 1),
                   opacity: _showLoginForm ? 1.0 : 0.0,
@@ -217,16 +220,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 FirebaseServices.register(
-                                  name: _namecontroller.text,
-                                  email: _emailcontroller.text,
-                                  password: _passwordcontroller.text,
-                                ).then((user) {
-                                  Navigator.of(
-                                    context,
-                                  ).pop();
-                                }).catchError((error) {
-                                  if(error is FirebaseAuthException){
-                                    DelightToastBar(
+                                      name: _namecontroller.text,
+                                      email: _emailcontroller.text,
+                                      password: _passwordcontroller.text,
+                                    )
+                                    .then((user) {
+                                      Provider.of<UserProvider>(
+                                        context,
+                                        listen: false,
+                                      ).updateCurrentUser(user);
+                                      Navigator.of(
+                                        context,
+                                      ).pushReplacementNamed(
+                                        HomeScreen.routeName,
+                                      );
+                                    })
+                                    .catchError((error) {
+                                      if (error is FirebaseAuthException) {
+                                        DelightToastBar(
                                           position: DelightSnackbarPosition.top,
                                           autoDismiss: true,
                                           snackbarDuration: Duration(
@@ -256,8 +267,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             );
                                           },
                                         ).show(context);
-                                  }
-                                });
+                                      }
+                                    });
                               }
                             },
                           ),

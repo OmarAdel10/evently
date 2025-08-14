@@ -3,6 +3,7 @@ import 'package:delightful_toast/delight_toast.dart';
 import 'package:delightful_toast/toast/components/toast_card.dart';
 import 'package:delightful_toast/toast/utils/enums.dart';
 import 'package:eventlyy/FireBase/firebase_services.dart';
+import 'package:eventlyy/Providers/user_provider.dart';
 import 'package:eventlyy/Screens/Auth/forget_password_screen.dart';
 import 'package:eventlyy/Screens/Auth/register_screen.dart';
 import 'package:eventlyy/Screens/Home/home_screen.dart';
@@ -13,6 +14,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = '/login';
@@ -214,15 +216,23 @@ class _LoginScreenState extends State<LoginScreen> {
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 FirebaseServices.login(
-                                  email: _emailcontroller.text,
-                                  password: _passwordcontroller.text,
-                                ).then(
-                                  (user) => Navigator.of(
-                                    context,
-                                  ).pushReplacementNamed(HomeScreen.routeName),
-                                ).catchError((error) {
-                                  if(error is FirebaseAuthException){
-                                    DelightToastBar(
+                                      email: _emailcontroller.text,
+                                      password: _passwordcontroller.text,
+                                    )
+                                    .then((user) {
+                                      Provider.of<UserProvider>(
+                                        context,
+                                        listen: false,
+                                      ).updateCurrentUser(user);
+                                      Navigator.of(
+                                        context,
+                                      ).pushReplacementNamed(
+                                        HomeScreen.routeName,
+                                      );
+                                    })
+                                    .catchError((error) {
+                                      if (error is FirebaseAuthException) {
+                                        DelightToastBar(
                                           position: DelightSnackbarPosition.top,
                                           autoDismiss: true,
                                           snackbarDuration: Duration(
@@ -252,8 +262,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                             );
                                           },
                                         ).show(context);
-                                  }
-                                });
+                                      }
+                                    });
                               }
                             },
                           ),
