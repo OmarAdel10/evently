@@ -1,6 +1,3 @@
-import 'package:eventlyy/FireBase/firebase_services.dart';
-import 'package:eventlyy/Models/category_model.dart';
-import 'package:eventlyy/Models/event_model.dart';
 import 'package:eventlyy/Providers/event_provider.dart';
 import 'package:eventlyy/Screens/Home/Events/event_item.dart';
 import 'package:eventlyy/Screens/Home/Tabs/homeTab/home_header.dart';

@@ -1,15 +1,20 @@
 import 'package:eventlyy/Models/event_model.dart';
+import 'package:eventlyy/Providers/event_provider.dart';
+import 'package:eventlyy/Providers/user_provider.dart';
 import 'package:eventlyy/apptheme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class EventItem extends StatelessWidget {
   final EventModel event;
-  const EventItem({required this.event});
+  const EventItem({super.key, required this.event});
 
   @override
   Widget build(BuildContext context) {
+    UserProvider userProvider = Provider.of<UserProvider>(context);
+    bool isFavourite = userProvider.checkIsEventFavourite(event.id);
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: Apptheme.primary),
@@ -59,7 +64,8 @@ class EventItem extends StatelessWidget {
                 color: Apptheme.white,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Text('Created By ${event.userCreatedThisEventName}',
+              child: Text(
+                'Created By ${event.userCreatedThisEventName}',
                 style: Theme.of(
                   context,
                 ).textTheme.titleLarge!.copyWith(fontSize: 12),
@@ -89,8 +95,23 @@ class EventItem extends StatelessWidget {
                   ),
                   SizedBox(width: 8),
                   InkWell(
-                    onTap: () {},
-                    child: Icon(CupertinoIcons.heart, color: Apptheme.primary),
+                    onTap: () {
+                      if (isFavourite) {
+                        userProvider.removeEventFromFavourites(event.id);
+                        Provider.of<EventProvider>(
+                          context,
+                          listen: false
+                        ).filterFavouriteEvents(userProvider.currentUser!.favouriteEventsIds);
+                      } else {
+                        userProvider.addEventToFavourites(event.id);
+                      }
+                    },
+                    child: Icon(
+                      isFavourite
+                          ? CupertinoIcons.heart_fill
+                          : CupertinoIcons.heart,
+                      color: Apptheme.primary,
+                    ),
                   ),
                 ],
               ),
