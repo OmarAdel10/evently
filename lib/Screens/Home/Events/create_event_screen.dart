@@ -5,6 +5,7 @@ import 'package:delightful_toast/toast/utils/enums.dart';
 import 'package:eventlyy/FireBase/firebase_services.dart';
 import 'package:eventlyy/Models/category_model.dart';
 import 'package:eventlyy/Models/event_model.dart';
+import 'package:eventlyy/Providers/event_provider.dart';
 import 'package:eventlyy/Screens/Home/Tabs/homeTab/tabBar_item.dart';
 import 'package:eventlyy/Widgets/default_elevated_button.dart';
 import 'package:eventlyy/Widgets/default_text_field.dart';
@@ -14,6 +15,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 import 'package:redacted/redacted.dart';
 
 class CreateEventScreen extends StatefulWidget {
@@ -35,12 +37,14 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   CategoryModel selectedCategory = CategoryModel.categories.first;
   late bool isLoading;
   late String userName;
+  late EventProvider eventProvider;
 
   @override
   void initState() {
     super.initState();
     getUserNAME();
     isLoadingShimmer();
+    // WidgetsBinding.instance.addPostFrameCallback((_) {});
   }
 
   Future<void> getUserNAME() async {
@@ -58,6 +62,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
+    eventProvider = Provider.of<EventProvider>(context);
     return Scaffold(
       appBar: AppBar(
         leading: Row(
@@ -383,6 +388,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
       );
       FirebaseServices.createEvent(event).then((_) {
         Navigator.of(context).pop();
+        eventProvider.getEvents();
         DelightToastBar(
           position: DelightSnackbarPosition.top,
           autoDismiss: true,
