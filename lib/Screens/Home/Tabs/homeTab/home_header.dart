@@ -1,5 +1,6 @@
 import 'package:eventlyy/Models/category_model.dart';
 import 'package:eventlyy/Providers/event_provider.dart';
+import 'package:eventlyy/Providers/user_provider.dart';
 import 'package:eventlyy/Screens/Home/Tabs/homeTab/tabBar_item.dart';
 import 'package:eventlyy/apptheme.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,6 +18,7 @@ class _HomeHeaderState extends State<HomeHeader> {
   @override
   Widget build(BuildContext context) {
     EventProvider eventProvider = Provider.of<EventProvider>(context);
+    UserProvider userProvider = Provider.of<UserProvider>(context);
     TextTheme textTheme = Theme.of(context).textTheme;
     return Container(
       padding: EdgeInsets.only(left: 16, bottom: 16),
@@ -34,7 +36,10 @@ class _HomeHeaderState extends State<HomeHeader> {
           children: [
             SizedBox(height: 16),
             Text('Welcome Back ✨', style: textTheme.titleSmall),
-            Text('User Name', style: textTheme.headlineSmall),
+            Text(
+              userProvider.currentUser!.name,
+              style: textTheme.headlineSmall,
+            ),
             SizedBox(height: 16),
             DefaultTabController(
               length: CategoryModel.categories.length + 1,
