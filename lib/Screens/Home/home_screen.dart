@@ -19,7 +19,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
-  List<Widget> tabs = [HomeTab(), MapTab(), LoveTab(), ProfileTab()];
+  List<Widget> tabs = [HomeTab(), MapTab(), HomeTab(),LoveTab(), ProfileTab()];
 
   @override
   Widget build(BuildContext context) {
