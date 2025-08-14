@@ -40,6 +40,7 @@ class _LoveTabState extends State<LoveTab> {
         child: Column(
           children: [
             DefaultTextField(text: 'Search For Event', controller: searchController, hasPrefix: true, icon: CupertinoIcons.search,),
+            const SizedBox(height: 16),
             Expanded(
               child:
                   eventProvider.favouriteEvents.isEmpty
@@ -49,7 +50,7 @@ class _LoveTabState extends State<LoveTab> {
                             (context, index) => EventItem(
                               event: eventProvider.favouriteEvents[index],
                             ),
-                        separatorBuilder: (_, __) => SizedBox(),
+                        separatorBuilder: (_, __) => SizedBox(height: 16),
                         itemCount: eventProvider.favouriteEvents.length,
                       ),
             ),
