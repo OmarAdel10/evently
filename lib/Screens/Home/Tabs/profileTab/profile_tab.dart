@@ -30,145 +30,142 @@ class ProfileTab extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ProfileHeader(),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Language',
-                style: textTheme.titleLarge!.copyWith(color: Apptheme.black),
-              ),
-              const SizedBox(height: 16),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Apptheme.primary),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: DropdownButton(
-                  value: 'en',
-                  items:
-                      languages
-                          .map(
-                            (language) => DropdownMenuItem(
-                              value: language.code,
-                              child: Text(
-                                language.name,
-                                style: textTheme.titleLarge,
-                              ),
-                            ),
-                          )
-                          .toList(),
-                  onChanged: (value) {},
-                  borderRadius: BorderRadius.circular(16),
-                  dropdownColor: Apptheme.white,
-                  iconEnabledColor: Apptheme.primary,
-                  isExpanded: true,
-                  underline: SizedBox(),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'Theme',
-                style: textTheme.titleLarge!.copyWith(color: Apptheme.black),
-              ),
-              const SizedBox(height: 16),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Apptheme.primary),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: DropdownButton(
-                  value: 'light',
-                  items:
-                      themes
-                          .map(
-                            (theme) => DropdownMenuItem(
-                              value: theme.code,
-                              child: Text(
-                                theme.name,
-                                style: textTheme.titleLarge,
-                              ),
-                            ),
-                          )
-                          .toList(),
-                  onChanged: (value) {},
-                  borderRadius: BorderRadius.circular(16),
-                  dropdownColor: Apptheme.white,
-                  iconEnabledColor: Apptheme.primary,
-                  isExpanded: true,
-                  underline: SizedBox(),
-                ),
-              ),
-              SizedBox(height: MediaQuery.sizeOf(context).height * 0.3),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Apptheme.red,
-                  padding: EdgeInsets.all(16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadiusGeometry.circular(16),
-                  ),
-                ),
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return GiffyDialog.lottie(
-                        Lottie.asset(
-                          'assets/lottie/Logout.json',
-                          repeat: false,
-                        ),
-                        title: Text('Logout?'),
-                        titleTextStyle: TextStyle(
-                          color: Apptheme.black,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w700,
-                        ),
-                        actionsAlignment: MainAxisAlignment.center,
-                        actions: [
-                          DefaultElevatedButton(
-                            text: 'Cancel',
-                            onPressed: () => Navigator.of(context).pop(),
-                          ),
-                          SizedBox(width: 16),
-                          DefaultElevatedButton(
-                            text: 'Logout',
-                            onPressed: () {
-                              userProvider.updateCurrentUser(null);
-                              Navigator.of(context).pop();
-                              Navigator.of(
-                                context,
-                              ).pushReplacementNamed(LoginScreen.routeName);
-                            },
-                          ),
-                        ],
-                        entryAnimation: EntryAnimation.bottom,
-                      );
-                    },
-                  );
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Langauge row
+                Row(
                   children: [
-                    Icon(
-                      CupertinoIcons.square_arrow_right,
-                      color: Apptheme.white,
-                      size: 24,
-                    ),
-                    SizedBox(width: 8),
                     Text(
-                      'Logout',
+                      'Language',
                       style: textTheme.titleLarge!.copyWith(
-                        color: Apptheme.white,
-                        fontWeight: FontWeight.w400,
+                        color: Apptheme.black,
+                      ),
+                    ),
+                    Spacer(),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Apptheme.primary),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: DropdownButton(
+                        value: 'en',
+                        items:
+                            languages
+                                .map(
+                                  (language) => DropdownMenuItem(
+                                    value: language.code,
+                                    child: Text(
+                                      language.name,
+                                      style: textTheme.titleLarge,
+                                    ),
+                                  ),
+                                )
+                                .toList(),
+                        onChanged: (value) {},
+                        borderRadius: BorderRadius.circular(16),
+                        dropdownColor: Apptheme.white,
+                        iconEnabledColor: Apptheme.primary,
+                        // isExpanded: true,
+                        underline: SizedBox(),
                       ),
                     ),
                   ],
                 ),
-              ),
-            ],
+                const SizedBox(height: 16),
+                // Theme row
+                Row(
+                  children: [
+                    Text(
+                      'Dark Theme',
+                      style: textTheme.titleLarge!.copyWith(
+                        color: Apptheme.black,
+                      ),
+                    ),
+                    Spacer(),
+                    Switch(
+                      value: false,
+                      onChanged: (value) {},
+                      activeTrackColor: Apptheme.primary,
+                      inactiveThumbColor: Apptheme.white,
+                      inactiveTrackColor: Apptheme.grey,
+                    ),
+                  ],
+                ),
+                Spacer(),
+                // Logour button
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Apptheme.red,
+                    padding: EdgeInsets.all(16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadiusGeometry.circular(16),
+                    ),
+                  ),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return GiffyDialog.lottie(
+                          Lottie.asset(
+                            'assets/lottie/Logout.json',
+                            repeat: false,
+                          ),
+                          title: Text('Logout?'),
+                          titleTextStyle: TextStyle(
+                            color: Apptheme.black,
+                            fontSize: 24,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          actionsAlignment: MainAxisAlignment.center,
+                          actions: [
+                            DefaultElevatedButton(
+                              text: 'Cancel',
+                              onPressed: () => Navigator.of(context).pop(),
+                            ),
+                            SizedBox(width: 16),
+                            DefaultElevatedButton(
+                              text: 'Logout',
+                              onPressed: () {
+                                userProvider.updateCurrentUser(null);
+                                Navigator.of(context).pop();
+                                Navigator.of(
+                                  context,
+                                ).pushReplacementNamed(LoginScreen.routeName);
+                              },
+                            ),
+                          ],
+                          entryAnimation: EntryAnimation.bottom,
+                        );
+                      },
+                    );
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Icon(
+                        CupertinoIcons.square_arrow_right,
+                        color: Apptheme.white,
+                        size: 24,
+                      ),
+                      SizedBox(width: 8),
+                      Text(
+                        'Logout',
+                        style: textTheme.titleLarge!.copyWith(
+                          color: Apptheme.white,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: MediaQuery.sizeOf(context).height * 0.03),
+              ],
+            ),
           ),
         ),
       ],
