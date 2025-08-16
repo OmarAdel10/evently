@@ -2,6 +2,8 @@ import 'package:eventlyy/Models/event_model.dart';
 import 'package:eventlyy/Providers/event_provider.dart';
 import 'package:eventlyy/Providers/user_provider.dart';
 import 'package:eventlyy/apptheme.dart';
+import 'package:eventlyy/l10n/app_localizations.dart';
+import 'package:eventlyy/l10n/app_localizations_ar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -15,6 +17,9 @@ class EventItem extends StatelessWidget {
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of<UserProvider>(context);
     bool isFavourite = userProvider.checkIsEventFavourite(event.id);
+    AppLocalizations localizations = AppLocalizations.of(context)!;
+    bool isarabic = Localizations.localeOf(context).languageCode == 'ar';
+
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: Apptheme.primary),
@@ -57,7 +62,8 @@ class EventItem extends StatelessWidget {
           ),
           Positioned(
             top: 8,
-            right: 8,
+            right: isarabic ? null : 8,
+            left: isarabic ? 8 : null,
             child: Container(
               padding: EdgeInsets.all(8),
               decoration: BoxDecoration(
@@ -65,7 +71,7 @@ class EventItem extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Text(
-                'Created By ${event.userCreatedThisEventName}',
+                '${localizations.created_by} ${event.userCreatedThisEventName}',
                 style: Theme.of(
                   context,
                 ).textTheme.titleLarge!.copyWith(fontSize: 12),
@@ -100,8 +106,10 @@ class EventItem extends StatelessWidget {
                         userProvider.removeEventFromFavourites(event.id);
                         Provider.of<EventProvider>(
                           context,
-                          listen: false
-                        ).filterFavouriteEvents(userProvider.currentUser!.favouriteEventsIds);
+                          listen: false,
+                        ).filterFavouriteEvents(
+                          userProvider.currentUser!.favouriteEventsIds,
+                        );
                       } else {
                         userProvider.addEventToFavourites(event.id);
                       }

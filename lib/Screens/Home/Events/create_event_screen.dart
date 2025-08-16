@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delightful_toast/delight_toast.dart';
 import 'package:delightful_toast/toast/components/toast_card.dart';
 import 'package:delightful_toast/toast/utils/enums.dart';
@@ -10,6 +9,7 @@ import 'package:eventlyy/Screens/Home/Tabs/homeTab/tabBar_item.dart';
 import 'package:eventlyy/Widgets/default_elevated_button.dart';
 import 'package:eventlyy/Widgets/default_text_field.dart';
 import 'package:eventlyy/apptheme.dart';
+import 'package:eventlyy/l10n/app_localizations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +20,8 @@ import 'package:redacted/redacted.dart';
 
 class CreateEventScreen extends StatefulWidget {
   static const String routeName = '/create-event';
+
+  const CreateEventScreen({super.key});
 
   @override
   State<CreateEventScreen> createState() => _CreateEventScreenState();
@@ -63,6 +65,8 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
     eventProvider = Provider.of<EventProvider>(context);
+        AppLocalizations localizations = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
         leading: Row(
@@ -77,7 +81,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
             ),
           ],
         ),
-        title: Text('Create Event'),
+        title: Text(localizations.create_event_screen_create_event),
       ),
 
       body: SingleChildScrollView(
@@ -138,36 +142,36 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Title', style: textTheme.titleMedium),
+                    Text(localizations.title, style: textTheme.titleMedium),
                     const SizedBox(height: 8),
                     DefaultTextField(
-                      text: 'Event Title',
+                      text: localizations.event_title,
                       hasPrefix: true,
                       icon: CupertinoIcons.square_pencil,
                       controller: _eventController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Field Can Not Be Empty';
+                          return localizations.field_can_not_be_empty;
                         }
                         if (value.length < 3) {
-                          return 'Title Must Be Atleast 3 characters';
+                          return localizations.title_can_not_be_less_than_3_characters;
                         }
                         return null;
                       },
                     ),
                     const SizedBox(height: 16),
-                    Text('Description', style: textTheme.titleMedium),
+                    Text(localizations.description, style: textTheme.titleMedium),
                     const SizedBox(height: 8),
                     DefaultTextField(
-                      text: 'Event Description',
+                      text: localizations.event_description,
                       controller: _descriptionController,
-                      maxLines: 5,
+                      maxLines: 4,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Field Can Not Be Empty';
+                          return localizations.field_can_not_be_empty;
                         }
                         if (value.length <= 10) {
-                          return 'Description Must Be Atleast 10 characters';
+                          return localizations.description_can_not_be_less_than_10_characters;
                         }
                         return null;
                       },
@@ -178,7 +182,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                       children: [
                         Icon(CupertinoIcons.calendar, size: 24),
                         const SizedBox(width: 10),
-                        Text('Event Date', style: textTheme.titleMedium),
+                        Text(localizations.event_date, style: textTheme.titleMedium),
                         Spacer(),
                         GestureDetector(
                           onTap: () async {
@@ -210,7 +214,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                       ),
                                     ),
                                     title: Text(
-                                      'Please Provide A Date !',
+                                      localizations.please_provide_a_date,
                                       style: textTheme.titleMedium!.copyWith(
                                         color: Apptheme.white,
                                       ),
@@ -227,7 +231,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                           },
                           child: Text(
                             selectedDate == null
-                                ? 'Choose Date'
+                                ? localizations.choose_date
                                 : dateFormat.format(selectedDate!),
                             style: textTheme.titleMedium!.copyWith(
                               color: Apptheme.primary,
@@ -242,7 +246,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                       children: [
                         Icon(CupertinoIcons.time, size: 24),
                         const SizedBox(width: 10),
-                        Text('Event Time', style: textTheme.titleMedium),
+                        Text(localizations.event_time, style: textTheme.titleMedium),
                         Spacer(),
                         GestureDetector(
                           onTap: () async {
@@ -270,7 +274,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                       ),
                                     ),
                                     title: Text(
-                                      'Please Provide A Time !',
+                                      localizations.please_provide_a_time,
                                       style: textTheme.titleMedium!.copyWith(
                                         color: Apptheme.white,
                                       ),
@@ -287,7 +291,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                           },
                           child: Text(
                             selectedTime == null
-                                ? 'Choose Time'
+                                ? localizations.choose_time
                                 : selectedTime!.format(context),
                             style: textTheme.titleMedium!.copyWith(
                               color: Apptheme.primary,
@@ -297,7 +301,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                       ],
                     ),
                     const SizedBox(height: 16),
-                    Text('Location', style: textTheme.titleMedium),
+                    Text(localizations.location, style: textTheme.titleMedium),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.all(8),
@@ -325,7 +329,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                           ),
                           const SizedBox(width: 8),
                           Text(
-                            'Choose Event Location',
+                            localizations.choose_event_location,
                             style: textTheme.titleMedium!.copyWith(
                               color: Apptheme.primary,
                             ),
@@ -352,7 +356,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                     SizedBox(
                       width: double.infinity,
                       child: DefaultElevatedButton(
-                        text: 'Add Event',
+                        text: localizations.add_event,
                         onPressed: createEvent,
                       ),
                     ),
@@ -369,8 +373,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   void createEvent() {
     if (_formKey.currentState!.validate() &&
         selectedDate != null &&
-        selectedTime != null &&
-        userName != null) {
+        selectedTime != null) {
       DateTime dateTime = DateTime(
         selectedDate!.year,
         selectedDate!.month,

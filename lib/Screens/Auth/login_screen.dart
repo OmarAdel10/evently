@@ -10,6 +10,7 @@ import 'package:eventlyy/Screens/Home/home_screen.dart';
 import 'package:eventlyy/Widgets/default_elevated_button.dart';
 import 'package:eventlyy/Widgets/default_text_field.dart';
 import 'package:eventlyy/apptheme.dart';
+import 'package:eventlyy/l10n/app_localizations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,9 +28,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailcontroller = TextEditingController();
-
   final TextEditingController _passwordcontroller = TextEditingController();
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   bool _isCentered = true;
@@ -96,6 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
     TextTheme textTheme = Theme.of(context).textTheme;
+    AppLocalizations localizations = AppLocalizations.of(context)!;
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -145,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 isRepeatingAnimation: false,
                               )
                               : Text(
-                                _displayedText + '|',
+                                '$_displayedText|',
                                 style: textTheme.headlineSmall!.copyWith(
                                   color: Apptheme.primary,
                                 ),
@@ -162,31 +162,31 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         SizedBox(height: size.height * 0.35),
                         DefaultTextField(
-                          text: 'Email',
+                          text: localizations.email,
                           icon: CupertinoIcons.mail_solid,
                           controller: _emailcontroller,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Field Can Not Be Empty';
+                              return localizations.field_can_not_be_empty;
                             }
                             if (value.length < 5) {
-                              return 'Email Can Not be Less Than 5 Characters';
+                              return localizations.email_can_not_be_less_than_5_characters;
                             }
                             return null;
                           },
                         ),
                         SizedBox(height: 16),
                         DefaultTextField(
-                          text: 'Password',
+                          text: localizations.password,
                           icon: CupertinoIcons.padlock_solid,
                           controller: _passwordcontroller,
                           hasSuffix: true,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Field Can Not Be Empty';
+                              return localizations.field_can_not_be_empty;
                             }
-                            if (value.length < 8) {
-                              return 'Password Can Not be Less Than 8 Characters';
+                            if (value.length < 6) {
+                              return localizations.password_can_not_be_less_than_6_characters;
                             }
                             return null;
                           },
@@ -200,7 +200,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ).pushNamed(ForgetPasswordScreen.routeName);
                             },
                             child: Text(
-                              'Forget Password?',
+                              localizations.login_forget_password,
                               style: textTheme.titleMedium!.copyWith(
                                 color: Apptheme.primary,
                                 fontStyle: FontStyle.italic,
@@ -212,7 +212,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         SizedBox(
                           width: double.infinity,
                           child: DefaultElevatedButton(
-                            text: 'Login',
+                            text: localizations.login,
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 FirebaseServices.login(
@@ -273,7 +273,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Don\'t Have Account ?',
+                              localizations.login_dont_have_account,
                               style: textTheme.titleMedium,
                             ),
                             TextButton(
@@ -283,7 +283,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ).pushNamed(RegisterScreen.routeName);
                               },
                               child: Text(
-                                'Create Account',
+                                localizations.login_create_account,
                                 style: textTheme.titleMedium!.copyWith(
                                   color: Apptheme.primary,
                                   fontStyle: FontStyle.italic,
@@ -339,7 +339,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               Image.asset('assets/images/google.png'),
                               SizedBox(width: 10),
                               Text(
-                                'Login With Google',
+                                localizations.login_login_with_google,
                                 style: textTheme.titleLarge!.copyWith(
                                   fontWeight: FontWeight.w500,
                                 ),

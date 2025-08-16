@@ -1,4 +1,3 @@
-import 'package:eventlyy/apptheme.dart';
 import 'package:flutter/material.dart';
 
 class TabbarItem extends StatelessWidget {

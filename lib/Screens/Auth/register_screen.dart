@@ -9,6 +9,7 @@ import 'package:eventlyy/Screens/Home/home_screen.dart';
 import 'package:eventlyy/Widgets/default_elevated_button.dart';
 import 'package:eventlyy/Widgets/default_text_field.dart';
 import 'package:eventlyy/apptheme.dart';
+import 'package:eventlyy/l10n/app_localizations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,8 @@ import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const String routeName = '/register';
+
+  const RegisterScreen({super.key});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -98,6 +101,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
     TextTheme textTheme = Theme.of(context).textTheme;
+    AppLocalizations localizations = AppLocalizations.of(context)!;
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -150,7 +155,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 isRepeatingAnimation: false,
                               )
                               : Text(
-                                _displayedText + '|',
+                                '$_displayedText|',
                                 style: textTheme.headlineSmall!.copyWith(
                                   color: Apptheme.primary,
                                   fontSize: 22,
@@ -168,46 +173,46 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       children: [
                         SizedBox(height: size.height * 0.35),
                         DefaultTextField(
-                          text: 'Name',
+                          text: localizations.register_name,
                           icon: CupertinoIcons.mail_solid,
                           controller: _namecontroller,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Field Can Not Be Empty';
+                              return localizations.field_can_not_be_empty;
                             }
                             if (value.length < 3) {
-                              return 'Name Can Not be Less Than 3 Characters';
+                              return localizations.name_can_not_be_less_than_3_characters;
                             }
                             return null;
                           },
                         ),
                         SizedBox(height: 16),
                         DefaultTextField(
-                          text: 'Email',
+                          text: localizations.email,
                           icon: CupertinoIcons.mail_solid,
                           controller: _emailcontroller,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Field Can Not Be Empty';
+                              return localizations.field_can_not_be_empty;
                             }
                             if (value.length < 5) {
-                              return 'Email Can Not be Less Than 5 Characters';
+                              return localizations.email_can_not_be_less_than_5_characters;
                             }
                             return null;
                           },
                         ),
                         SizedBox(height: 16),
                         DefaultTextField(
-                          text: 'Password',
+                          text: localizations.password,
                           icon: CupertinoIcons.padlock_solid,
                           controller: _passwordcontroller,
                           hasSuffix: true,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Field Can Not Be Empty';
+                              return localizations.field_can_not_be_empty;
                             }
                             if (value.length < 8) {
-                              return 'Password Can Not be Less Than 8 Characters';
+                              return localizations.password_can_not_be_less_than_6_characters;
                             }
                             return null;
                           },
@@ -216,7 +221,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         SizedBox(
                           width: double.infinity,
                           child: DefaultElevatedButton(
-                            text: 'Create Account',
+                            text: localizations.login_create_account,
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 FirebaseServices.register(
@@ -278,7 +283,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Already Have Account ?',
+                              localizations.register_already_have_account,
                               style: textTheme.titleMedium,
                             ),
                             TextButton(
@@ -288,7 +293,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ).pushReplacementNamed(LoginScreen.routeName);
                               },
                               child: Text(
-                                'Login',
+                                localizations.login,
                                 style: textTheme.titleMedium!.copyWith(
                                   color: Apptheme.primary,
                                   fontStyle: FontStyle.italic,

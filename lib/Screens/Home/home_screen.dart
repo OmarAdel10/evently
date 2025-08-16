@@ -5,6 +5,7 @@ import 'package:eventlyy/Screens/Home/Tabs/mapTab/map_tab.dart';
 import 'package:eventlyy/Screens/Home/Tabs/profileTab/profile_tab.dart';
 import 'package:eventlyy/Screens/Home/bottom_navBar_item.dart';
 import 'package:eventlyy/apptheme.dart';
+import 'package:eventlyy/l10n/app_localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -23,6 +24,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+        AppLocalizations localizations = AppLocalizations.of(context)!;
+
     return Scaffold(
       body: tabs[_currentIndex],
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -50,23 +53,23 @@ class _HomeScreenState extends State<HomeScreen> {
             BottomNavigationBarItem(
               icon: BottomNavbarItem(icon: CupertinoIcons.house),
               activeIcon: BottomNavbarItem(icon: CupertinoIcons.house_fill),
-              label: 'Home',
+              label: localizations.home,
             ),
             BottomNavigationBarItem(
               icon: BottomNavbarItem(icon: CupertinoIcons.map),
               activeIcon: BottomNavbarItem(icon: CupertinoIcons.map_fill),
-              label: 'Map',
+              label: localizations.map,
             ),
             BottomNavigationBarItem(icon: SizedBox(), label: ''),
             BottomNavigationBarItem(
               icon: BottomNavbarItem(icon: CupertinoIcons.heart),
               activeIcon: BottomNavbarItem(icon: CupertinoIcons.heart_fill),
-              label: 'Love',
+              label: localizations.love,
             ),
             BottomNavigationBarItem(
               icon: BottomNavbarItem(icon: CupertinoIcons.person),
               activeIcon: BottomNavbarItem(icon: CupertinoIcons.person_fill),
-              label: 'Profile',
+              label: localizations.profile,
             ),
           ],
         ),

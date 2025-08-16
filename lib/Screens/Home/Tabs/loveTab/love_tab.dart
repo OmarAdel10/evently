@@ -2,6 +2,7 @@ import 'package:eventlyy/Providers/event_provider.dart';
 import 'package:eventlyy/Providers/user_provider.dart';
 import 'package:eventlyy/Screens/Home/Events/event_item.dart';
 import 'package:eventlyy/Widgets/default_text_field.dart';
+import 'package:eventlyy/l10n/app_localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -34,12 +35,14 @@ class _LoveTabState extends State<LoveTab> {
   Widget build(BuildContext context) {
     eventProvider = Provider.of<EventProvider>(context);
     TextEditingController searchController = TextEditingController();
+        AppLocalizations localizations = AppLocalizations.of(context)!;
+
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            DefaultTextField(text: 'Search For Event', controller: searchController, hasPrefix: true, icon: CupertinoIcons.search,),
+            DefaultTextField(text: localizations.love_tab_search_for_event, controller: searchController, hasPrefix: true, icon: CupertinoIcons.search,),
             const SizedBox(height: 16),
             Expanded(
               child:

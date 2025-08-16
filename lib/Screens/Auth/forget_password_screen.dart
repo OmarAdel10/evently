@@ -2,6 +2,7 @@ import 'package:eventlyy/FireBase/firebase_services.dart';
 import 'package:eventlyy/Widgets/default_elevated_button.dart';
 import 'package:eventlyy/Widgets/default_text_field.dart';
 import 'package:eventlyy/apptheme.dart';
+import 'package:eventlyy/l10n/app_localizations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,13 +24,15 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   bool isPressed = false;
   @override
   Widget build(BuildContext context) {
+    AppLocalizations localizations = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Apptheme.white,
         centerTitle: true,
         foregroundColor: Apptheme.black,
         title: Text(
-          'Forget Password',
+          localizations.forget_password_screen_forget_password,
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
             color: Apptheme.black,
             fontWeight: FontWeight.w400,
@@ -53,26 +56,26 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                           padding: EdgeInsets.all(8),
                           decoration: BoxDecoration(
                             color: Apptheme.primary.withValues(alpha: 0.1),
-                            borderRadius: BorderRadius.circular(16)
+                            borderRadius: BorderRadius.circular(16),
                           ),
                           child: Column(
                             children: [
                               Text(
-                                'Enter your email address and we will send you a link to reset your password.',
+                                localizations.forgot_password_reset_email_title,
                                 textAlign: TextAlign.center,
                                 style: Theme.of(context).textTheme.titleMedium,
                               ),
                               SizedBox(height: 16),
                               DefaultTextField(
-                                text: 'Email',
+                                text: localizations.email,
                                 icon: CupertinoIcons.mail_solid,
                                 controller: _emailcontroller,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Field Can Not Be Empty';
+                                    return localizations.field_can_not_be_empty;
                                   }
                                   if (value.length < 5) {
-                                    return 'Email Can Not be Less Than 5 Characters';
+                                    return localizations.email_can_not_be_less_than_5_characters;
                                   }
                                   return null;
                                 },
@@ -84,7 +87,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                         SizedBox(
                           width: double.infinity,
                           child: DefaultElevatedButton(
-                            text: 'Reset Password',
+                            text: localizations.forgot_password_reset_password,
                             onPressed: forgetPassword,
                           ),
                         ),

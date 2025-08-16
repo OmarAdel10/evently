@@ -1,5 +1,4 @@
 import 'package:eventlyy/Screens/Auth/login_screen.dart';
-import 'package:eventlyy/Screens/Home/home_screen.dart';
 import 'package:eventlyy/Screens/onboarding/onboarding.dart';
 import 'package:eventlyy/Widgets/default_elevated_button.dart';
 import 'package:eventlyy/apptheme.dart';

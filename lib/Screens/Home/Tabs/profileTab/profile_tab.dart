@@ -5,6 +5,7 @@ import 'package:eventlyy/Screens/Home/Tabs/profileTab/profile_header.dart';
 import 'package:eventlyy/Screens/Home/Tabs/profileTab/themes.dart';
 import 'package:eventlyy/Widgets/default_elevated_button.dart';
 import 'package:eventlyy/apptheme.dart';
+import 'package:eventlyy/l10n/app_localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
@@ -17,6 +18,8 @@ class ProfileTab extends StatelessWidget {
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of<UserProvider>(context);
     TextTheme textTheme = Theme.of(context).textTheme;
+        AppLocalizations localizations = AppLocalizations.of(context)!;
+
     List<Language> languages = [
       Language(code: 'en', name: 'English'),
       Language(code: 'ar', name: 'Arabic'),
@@ -40,7 +43,7 @@ class ProfileTab extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      'Language',
+                      localizations.language,
                       style: textTheme.titleLarge!.copyWith(
                         color: Apptheme.black,
                       ),
@@ -81,7 +84,7 @@ class ProfileTab extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      'Dark Theme',
+                      localizations.dark_theme,
                       style: textTheme.titleLarge!.copyWith(
                         color: Apptheme.black,
                       ),
@@ -115,7 +118,7 @@ class ProfileTab extends StatelessWidget {
                             'assets/lottie/Logout.json',
                             repeat: false,
                           ),
-                          title: Text('Logout?'),
+                          title: Text(localizations.logout),
                           titleTextStyle: TextStyle(
                             color: Apptheme.black,
                             fontSize: 24,
@@ -124,12 +127,12 @@ class ProfileTab extends StatelessWidget {
                           actionsAlignment: MainAxisAlignment.center,
                           actions: [
                             DefaultElevatedButton(
-                              text: 'Cancel',
+                              text: localizations.cancel,
                               onPressed: () => Navigator.of(context).pop(),
                             ),
                             SizedBox(width: 16),
                             DefaultElevatedButton(
-                              text: 'Logout',
+                              text: localizations.profile_tab_logout,
                               onPressed: () {
                                 userProvider.updateCurrentUser(null);
                                 Navigator.of(context).pop();
@@ -154,7 +157,7 @@ class ProfileTab extends StatelessWidget {
                       ),
                       SizedBox(width: 8),
                       Text(
-                        'Logout',
+                        localizations.profile_tab_logout,
                         style: textTheme.titleLarge!.copyWith(
                           color: Apptheme.white,
                           fontWeight: FontWeight.w400,

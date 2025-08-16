@@ -3,6 +3,7 @@ import 'package:eventlyy/Providers/event_provider.dart';
 import 'package:eventlyy/Providers/user_provider.dart';
 import 'package:eventlyy/Screens/Home/Tabs/homeTab/tabBar_item.dart';
 import 'package:eventlyy/apptheme.dart';
+import 'package:eventlyy/l10n/app_localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +21,8 @@ class _HomeHeaderState extends State<HomeHeader> {
     EventProvider eventProvider = Provider.of<EventProvider>(context);
     UserProvider userProvider = Provider.of<UserProvider>(context);
     TextTheme textTheme = Theme.of(context).textTheme;
+        AppLocalizations localizations = AppLocalizations.of(context)!;
+
     return Container(
       padding: EdgeInsets.only(left: 16, bottom: 16),
       width: double.infinity,
@@ -35,10 +38,17 @@ class _HomeHeaderState extends State<HomeHeader> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 16),
-            Text('Welcome Back ✨', style: textTheme.titleSmall),
-            Text(
-              userProvider.currentUser!.name,
-              style: textTheme.headlineSmall,
+            Padding(
+              padding: const EdgeInsets.only(right: 16),
+              child: Column(
+                children: [
+                  Text('${localizations.home_screen_welcome_back} ✨', style: textTheme.titleSmall),
+              Text(
+                userProvider.currentUser!.name,
+                style: textTheme.headlineSmall,
+              ),
+                ],
+              ),
             ),
             SizedBox(height: 16),
             DefaultTabController(
