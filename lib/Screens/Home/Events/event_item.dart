@@ -28,7 +28,8 @@ class EventItem extends StatelessWidget {
             borderRadius: BorderRadiusGeometry.circular(16),
             child: Image.asset(
               'assets/images/${event.category.imageName}.png',
-              height: MediaQuery.sizeOf(context).height * 0.23,
+              height: MediaQuery.sizeOf(context).height * 0.24,
+              width: MediaQuery.sizeOf(context).width ,
             ),
           ),
           Container(
