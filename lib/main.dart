@@ -1,4 +1,5 @@
 import 'package:eventlyy/Providers/event_provider.dart';
+import 'package:eventlyy/Providers/settings_provider.dart';
 import 'package:eventlyy/Providers/user_provider.dart';
 import 'package:eventlyy/Screens/Auth/forget_password_screen.dart';
 import 'package:eventlyy/Screens/Auth/login_screen.dart';
@@ -43,6 +44,7 @@ class Evently extends StatelessWidget {
   const Evently({super.key, required this.showHome});
   @override
   Widget build(BuildContext context) {
+    SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       routes: {
@@ -61,7 +63,7 @@ class Evently extends StatelessWidget {
       themeMode: ThemeMode.light,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      locale: Locale('en'),
+      locale: Locale(settingsProvider.languageCode),
     );
   }
 }
