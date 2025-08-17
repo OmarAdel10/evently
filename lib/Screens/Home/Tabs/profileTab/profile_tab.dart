@@ -72,25 +72,27 @@ class ProfileTab extends StatelessWidget {
                                   ),
                                 )
                                 .toList(),
-                        onChanged: (languageCode) async {
+                        onChanged: (languageCode) /* async */ {
+                          // My first idea to do shared prefs for the localization
+                          // if (languageCode == null) return;
+                          // settingsProvider.updateLanguage(languageCode);
+                          // bool isArabic =
+                          //     Localizations.localeOf(context).languageCode ==
+                          //     'ar';
+                          // if (isArabic == false) {
+                          //   final prefs = await SharedPreferences.getInstance();
+                          //   await prefs.setBool('isarabic', true);
+                          // } else {
+                          //   final prefs = await SharedPreferences.getInstance();
+                          //   await prefs.setBool('isarabic', false);
+                          // }
+                          // My second idea to do shared prefs for the localization
                           if (languageCode == null) return;
                           settingsProvider.updateLanguage(languageCode);
-                          bool isArabic =
-                              Localizations.localeOf(context).languageCode ==
-                              'ar';
-                          print(isArabic);
-                          if (isArabic == false) {
-                            final prefs = await SharedPreferences.getInstance();
-                            await prefs.setBool('isarabic', true);
-                          } else {
-                            final prefs = await SharedPreferences.getInstance();
-                            await prefs.setBool('isarabic', false);
-                          }
                         },
                         borderRadius: BorderRadius.circular(16),
                         dropdownColor: Apptheme.white,
                         iconEnabledColor: Apptheme.primary,
-                        // isExpanded: true,
                         underline: SizedBox(),
                       ),
                     ),
