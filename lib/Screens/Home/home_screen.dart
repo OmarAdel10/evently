@@ -27,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
         AppLocalizations localizations = AppLocalizations.of(context)!;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: tabs[_currentIndex],
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventlyy/Providers/event_provider.dart';
 import 'package:eventlyy/Providers/user_provider.dart';
 import 'package:eventlyy/Screens/Home/Events/event_item.dart';
@@ -17,6 +18,7 @@ class LoveTab extends StatefulWidget {
 
 class _LoveTabState extends State<LoveTab> {
   late EventProvider eventProvider;
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -31,30 +33,41 @@ class _LoveTabState extends State<LoveTab> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
     eventProvider = Provider.of<EventProvider>(context);
-    TextEditingController searchController = TextEditingController();
-        AppLocalizations localizations = AppLocalizations.of(context)!;
+    AppLocalizations localizations = AppLocalizations.of(context)!;
 
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            DefaultTextField(text: localizations.love_tab_search_for_event, controller: searchController, hasPrefix: true, icon: CupertinoIcons.search,),
+            DefaultTextField(
+              text: localizations.love_tab_search_for_event,
+              controller: _searchController,
+              hasPrefix: true,
+              icon: CupertinoIcons.search,
+              onChanged: (query) {
+                eventProvider.searchResult(query);
+              },
+            ),
+
             const SizedBox(height: 16),
             Expanded(
               child:
-                  eventProvider.favouriteEvents.isEmpty
+                  eventProvider.displayedFavouriteEvents.isEmpty
                       ? Lottie.asset('assets/lottie/EmptyBox.json')
                       : ListView.separated(
                         itemBuilder:
                             (context, index) => EventItem(
-                              event: eventProvider.favouriteEvents[index],
+                              event:
+                                  eventProvider.displayedFavouriteEvents[index],
                             ),
                         separatorBuilder: (_, __) => SizedBox(height: 16),
-                        itemCount: eventProvider.favouriteEvents.length,
+                        itemCount:
+                            eventProvider.displayedFavouriteEvents.length,
                       ),
             ),
           ],

@@ -12,6 +12,7 @@ class DefaultTextField extends StatefulWidget {
   final int maxLines;
   final TextEditingController controller;
   final String? Function(String?)? validator;
+  final void Function(String)? onChanged;
   const DefaultTextField({
     required this.text,
     this.icon,
@@ -20,6 +21,7 @@ class DefaultTextField extends StatefulWidget {
     this.hasPrefix = false,
     this.validator,
     this.maxLines = 1,
+    this.onChanged
   });
 
   @override
@@ -38,6 +40,7 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
       maxLines: widget.maxLines,
       controller: widget.controller,
       validator: widget.validator,
+      onChanged: widget.onChanged,
       style: TextStyle(
         color: settingsProvider.isDark ? Apptheme.white : Apptheme.black,
       ),
