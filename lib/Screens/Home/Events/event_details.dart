@@ -1,5 +1,7 @@
 import 'package:eventlyy/Models/event_model.dart';
+import 'package:eventlyy/Providers/event_provider.dart';
 import 'package:eventlyy/Providers/settings_provider.dart';
+import 'package:eventlyy/Providers/user_provider.dart';
 import 'package:eventlyy/apptheme.dart';
 import 'package:eventlyy/l10n/app_localizations.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,18 +24,33 @@ class _EventDetailsState extends State<EventDetails> {
   Widget build(BuildContext context) {
     AppLocalizations localizations = AppLocalizations.of(context)!;
     SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
+    EventProvider eventProvider = Provider.of<EventProvider>(context);
+    bool isCreator = eventProvider.isCreatorOfThisEvent(
+      widget.event.userId,
+      Provider.of<UserProvider>(context, listen: false).currentUser!.id,
+    );
     TextTheme textTheme = Theme.of(context).textTheme;
     Size size = MediaQuery.sizeOf(context);
+    bool isEdit = false;
     return Scaffold(
       appBar: AppBar(
         title: Text(localizations.event_details),
-        actions: [
-          IconButton(onPressed: () {}, icon: Icon(CupertinoIcons.pencil)),
-          IconButton(
-            onPressed: () {},
-            icon: Icon(CupertinoIcons.delete, color: Apptheme.red),
-          ),
-        ],
+        actions:
+            isCreator
+                ? [
+                  IconButton(
+                    onPressed: () {
+                      isEdit = true;
+                      setState(() {});
+                    },
+                    icon: Icon(CupertinoIcons.pencil),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(CupertinoIcons.delete, color: Apptheme.red),
+                  ),
+                ]
+                : null,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -51,10 +68,7 @@ class _EventDetailsState extends State<EventDetails> {
                 ),
               ),
               const SizedBox(height: 16),
-              Text(
-                widget.event.title,
-                style: textTheme.headlineMedium,
-              ),
+              Text(widget.event.title, style: textTheme.headlineMedium),
               const SizedBox(height: 16),
               Container(
                 padding: EdgeInsets.all(8),
@@ -80,14 +94,26 @@ class _EventDetailsState extends State<EventDetails> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          DateFormat('dd MMMM yyyy', settingsProvider.languageCode).format(widget.event.dateTime),
+                          DateFormat(
+                            'dd MMMM yyyy',
+                            settingsProvider.languageCode,
+                          ).format(widget.event.dateTime),
                           style: textTheme.titleMedium!.copyWith(
                             color: Apptheme.primary,
                           ),
                         ),
-                        Text(DateFormat('hh : mm a', settingsProvider.languageCode).format(widget.event.dateTime), style: textTheme.titleMedium!.copyWith(
-                          color: settingsProvider.isDark ? Apptheme.white : Apptheme.black
-                        )),
+                        Text(
+                          DateFormat(
+                            'hh : mm a',
+                            settingsProvider.languageCode,
+                          ).format(widget.event.dateTime),
+                          style: textTheme.titleMedium!.copyWith(
+                            color:
+                                settingsProvider.isDark
+                                    ? Apptheme.white
+                                    : Apptheme.black,
+                          ),
+                        ),
                       ],
                     ),
                   ],

@@ -49,4 +49,8 @@ class EventProvider with ChangeNotifier {
     }
     notifyListeners();
   }
+
+  bool isCreatorOfThisEvent(String eventUserId, String userId) {
+    return eventUserId == userId;
+  }
 }
