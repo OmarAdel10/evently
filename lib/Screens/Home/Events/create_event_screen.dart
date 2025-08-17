@@ -5,6 +5,7 @@ import 'package:eventlyy/FireBase/firebase_services.dart';
 import 'package:eventlyy/Models/category_model.dart';
 import 'package:eventlyy/Models/event_model.dart';
 import 'package:eventlyy/Providers/event_provider.dart';
+import 'package:eventlyy/Providers/settings_provider.dart';
 import 'package:eventlyy/Screens/Home/Tabs/homeTab/tabBar_item.dart';
 import 'package:eventlyy/Widgets/default_elevated_button.dart';
 import 'package:eventlyy/Widgets/default_text_field.dart';
@@ -65,7 +66,8 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
     eventProvider = Provider.of<EventProvider>(context);
-        AppLocalizations localizations = AppLocalizations.of(context)!;
+    AppLocalizations localizations = AppLocalizations.of(context)!;
+    SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -128,8 +130,9 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                           _currentIndex ==
                           CategoryModel.categories.indexOf(category),
                       selectedBackgroundColor: Apptheme.primary,
-                      selectedForegroundColor: Apptheme.white,
-                      unselectedForegroundColor: Apptheme.primary,
+                      selectedForegroundColor: settingsProvider.isDark ? Apptheme.darkModeBackGround : Apptheme.white,
+                      unselectedForegroundColor: Apptheme.white,
+                      borderColor: Apptheme.primary,
                     ),
                   ),
                 ],
@@ -142,7 +145,9 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(localizations.title, style: textTheme.titleMedium),
+                    Text(localizations.title, style: textTheme.titleMedium!.copyWith(
+                      color: settingsProvider.isDark ? Apptheme.white : Apptheme.black
+                    )),
                     const SizedBox(height: 8),
                     DefaultTextField(
                       text: localizations.event_title,
@@ -160,7 +165,13 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                       },
                     ),
                     const SizedBox(height: 16),
-                    Text(localizations.description, style: textTheme.titleMedium),
+                    Text(localizations.description, style: textTheme.titleMedium!.copyWith(
+                        color:
+                            settingsProvider.isDark
+                                ? Apptheme.white
+                                : Apptheme.black,
+                      ),
+                    ),
                     const SizedBox(height: 8),
                     DefaultTextField(
                       text: localizations.event_description,
@@ -180,9 +191,15 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Icon(CupertinoIcons.calendar, size: 24),
+                        Icon(CupertinoIcons.calendar, size: 24, color: settingsProvider.isDark ? Apptheme.white : Apptheme.black,),
                         const SizedBox(width: 10),
-                        Text(localizations.event_date, style: textTheme.titleMedium),
+                        Text(localizations.event_date, style: textTheme.titleMedium!.copyWith(
+                            color:
+                                settingsProvider.isDark
+                                    ? Apptheme.white
+                                    : Apptheme.black,
+                          ),
+                        ),
                         Spacer(),
                         GestureDetector(
                           onTap: () async {
@@ -244,9 +261,20 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Icon(CupertinoIcons.time, size: 24),
+                        Icon(CupertinoIcons.time, size: 24,
+                          color:
+                              settingsProvider.isDark
+                                  ? Apptheme.white
+                                  : Apptheme.black,
+                        ),
                         const SizedBox(width: 10),
-                        Text(localizations.event_time, style: textTheme.titleMedium),
+                        Text(localizations.event_time, style: textTheme.titleMedium!.copyWith(
+                            color:
+                                settingsProvider.isDark
+                                    ? Apptheme.white
+                                    : Apptheme.black,
+                          ),
+                        ),
                         Spacer(),
                         GestureDetector(
                           onTap: () async {
@@ -301,11 +329,17 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                       ],
                     ),
                     const SizedBox(height: 16),
-                    Text(localizations.location, style: textTheme.titleMedium),
+                    Text(localizations.location, style: textTheme.titleMedium!.copyWith(
+                        color:
+                            settingsProvider.isDark
+                                ? Apptheme.white
+                                : Apptheme.black,
+                      ),
+                    ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.all(8),
-                        backgroundColor: Apptheme.white,
+                        backgroundColor: settingsProvider.isDark ? Apptheme.darkModeBackGround : Apptheme.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadiusGeometry.circular(16),
                           side: BorderSide(color: Apptheme.primary),

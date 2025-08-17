@@ -3,6 +3,7 @@ import 'package:delightful_toast/delight_toast.dart';
 import 'package:delightful_toast/toast/components/toast_card.dart';
 import 'package:delightful_toast/toast/utils/enums.dart';
 import 'package:eventlyy/FireBase/firebase_services.dart';
+import 'package:eventlyy/Providers/settings_provider.dart';
 import 'package:eventlyy/Providers/user_provider.dart';
 import 'package:eventlyy/Screens/Auth/login_screen.dart';
 import 'package:eventlyy/Screens/Home/home_screen.dart';
@@ -102,6 +103,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     Size size = MediaQuery.sizeOf(context);
     TextTheme textTheme = Theme.of(context).textTheme;
     AppLocalizations localizations = AppLocalizations.of(context)!;
+        SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
 
     return Scaffold(
       body: SafeArea(
@@ -284,7 +286,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           children: [
                             Text(
                               localizations.register_already_have_account,
-                              style: textTheme.titleMedium,
+                              style: textTheme.titleMedium!.copyWith(
+                                color: settingsProvider.isDark ? Apptheme.white : Apptheme.black,
+                              ),
                             ),
                             TextButton(
                               onPressed: () {

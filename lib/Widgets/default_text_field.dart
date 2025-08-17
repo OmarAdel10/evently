@@ -1,6 +1,8 @@
+import 'package:eventlyy/Providers/settings_provider.dart';
 import 'package:eventlyy/apptheme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DefaultTextField extends StatefulWidget {
   final String text;
@@ -29,16 +31,23 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
 
   @override
   Widget build(BuildContext context) {
+    SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
       maxLines: widget.maxLines,
       controller: widget.controller,
       validator: widget.validator,
+      style: TextStyle(
+        color: settingsProvider.isDark ? Apptheme.white : Apptheme.black,
+      ),
       obscureText: widget.hasSuffix ? !isEyeOn : false,
       decoration: InputDecoration(
         hintText: widget.text,
-        prefixIcon: widget.hasPrefix ? Icon(widget.icon, size: 24, color: Apptheme.grey) : null,
+        prefixIcon:
+            widget.hasPrefix
+                ? Icon(widget.icon, size: 24, color: Apptheme.grey)
+                : null,
         suffixIcon:
             widget.hasSuffix
                 ? IconButton(

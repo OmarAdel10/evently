@@ -1,4 +1,5 @@
 import 'package:eventlyy/FireBase/firebase_services.dart';
+import 'package:eventlyy/Providers/settings_provider.dart';
 import 'package:eventlyy/Widgets/default_elevated_button.dart';
 import 'package:eventlyy/Widgets/default_text_field.dart';
 import 'package:eventlyy/apptheme.dart';
@@ -7,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   static const String routeName = '/forgetPassword';
@@ -25,16 +27,17 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     AppLocalizations localizations = AppLocalizations.of(context)!;
+        SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Apptheme.white,
+        backgroundColor: settingsProvider.isDark ? Apptheme.darkModeBackGround : Apptheme.white,
         centerTitle: true,
-        foregroundColor: Apptheme.black,
+        foregroundColor: Apptheme.primary,
         title: Text(
           localizations.forget_password_screen_forget_password,
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
-            color: Apptheme.black,
+            color: Apptheme.primary,
             fontWeight: FontWeight.w400,
           ),
         ),
@@ -63,7 +66,9 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                               Text(
                                 localizations.forgot_password_reset_email_title,
                                 textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.titleMedium,
+                                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                                  color: settingsProvider.isDark ? Apptheme.white : Apptheme.black,
+                                ),
                               ),
                               SizedBox(height: 16),
                               DefaultTextField(

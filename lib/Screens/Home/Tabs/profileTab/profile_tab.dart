@@ -3,7 +3,6 @@ import 'package:eventlyy/Providers/user_provider.dart';
 import 'package:eventlyy/Screens/Auth/login_screen.dart';
 import 'package:eventlyy/Screens/Home/Tabs/profileTab/language.dart';
 import 'package:eventlyy/Screens/Home/Tabs/profileTab/profile_header.dart';
-import 'package:eventlyy/Screens/Home/Tabs/profileTab/themes.dart';
 import 'package:eventlyy/Widgets/default_elevated_button.dart';
 import 'package:eventlyy/apptheme.dart';
 import 'package:eventlyy/l10n/app_localizations.dart';
@@ -27,11 +26,6 @@ class ProfileTab extends StatelessWidget {
       Language(code: 'en', name: 'English'),
       Language(code: 'ar', name: 'Arabic'),
     ];
-
-    List<Themes> themes = [
-      Themes(code: 'light', name: 'Light'),
-      Themes(code: 'dark', name: 'Dark'),
-    ];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -48,7 +42,7 @@ class ProfileTab extends StatelessWidget {
                     Text(
                       localizations.language,
                       style: textTheme.titleLarge!.copyWith(
-                        color: Apptheme.black,
+                        color: settingsProvider.isDark ? Apptheme.white : Apptheme.black,
                       ),
                     ),
                     Spacer(),
@@ -105,13 +99,19 @@ class ProfileTab extends StatelessWidget {
                     Text(
                       localizations.dark_theme,
                       style: textTheme.titleLarge!.copyWith(
-                        color: Apptheme.black,
+                        color: settingsProvider.isDark
+                                ? Apptheme.white
+                                : Apptheme.black,
                       ),
                     ),
                     Spacer(),
                     Switch(
-                      value: false,
-                      onChanged: (value) {},
+                      value: settingsProvider.isDark,
+                      onChanged: (value) {
+                        settingsProvider.updateTheme(
+                          value ? ThemeMode.dark : ThemeMode.light,
+                        );
+                      },
                       activeTrackColor: Apptheme.primary,
                       inactiveThumbColor: Apptheme.white,
                       inactiveTrackColor: Apptheme.grey,

@@ -33,7 +33,13 @@ Future<void> main() async {
           create: (context) => EventProvider()..getEvents(),
         ),
         ChangeNotifierProvider(create: (context) => UserProvider()),
-        ChangeNotifierProvider(create: (context) => SettingsProvider()..loadSavedLanguage()),
+        ChangeNotifierProvider(
+          create:
+              (context) =>
+                  SettingsProvider()
+                    ..loadSavedLanguage()
+                    ..loadSavedTheme(),
+        ),
       ],
       child: Evently(showHome: showHome),
     ),
@@ -61,7 +67,7 @@ class Evently extends StatelessWidget {
       initialRoute: LoginScreen.routeName,
       theme: Apptheme.lightTheme,
       darkTheme: Apptheme.darkTheme,
-      themeMode: ThemeMode.light,
+      themeMode: settingsProvider.themeMode,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: Locale(settingsProvider.languageCode),

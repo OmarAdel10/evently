@@ -1,5 +1,6 @@
 import 'package:eventlyy/Models/category_model.dart';
 import 'package:eventlyy/Providers/event_provider.dart';
+import 'package:eventlyy/Providers/settings_provider.dart';
 import 'package:eventlyy/Providers/user_provider.dart';
 import 'package:eventlyy/Screens/Home/Tabs/homeTab/tabBar_item.dart';
 import 'package:eventlyy/apptheme.dart';
@@ -21,13 +22,17 @@ class _HomeHeaderState extends State<HomeHeader> {
     EventProvider eventProvider = Provider.of<EventProvider>(context);
     UserProvider userProvider = Provider.of<UserProvider>(context);
     TextTheme textTheme = Theme.of(context).textTheme;
-        AppLocalizations localizations = AppLocalizations.of(context)!;
+    AppLocalizations localizations = AppLocalizations.of(context)!;
+    SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
 
     return Container(
       padding: EdgeInsets.only(left: 16, bottom: 16),
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Apptheme.primary,
+        color:
+            settingsProvider.isDark
+                ? Apptheme.darkModeBackGround
+                : Apptheme.primary,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(24),
           bottomRight: Radius.circular(24),
@@ -42,11 +47,14 @@ class _HomeHeaderState extends State<HomeHeader> {
               padding: const EdgeInsets.only(right: 16),
               child: Column(
                 children: [
-                  Text('${localizations.home_screen_welcome_back} ✨', style: textTheme.titleSmall),
-              Text(
-                userProvider.currentUser!.name,
-                style: textTheme.headlineSmall,
-              ),
+                  Text(
+                    '${localizations.home_screen_welcome_back} ✨',
+                    style: textTheme.titleSmall,
+                  ),
+                  Text(
+                    userProvider.currentUser!.name,
+                    style: textTheme.headlineSmall,
+                  ),
                 ],
               ),
             ),
@@ -71,9 +79,16 @@ class _HomeHeaderState extends State<HomeHeader> {
                     icon: CupertinoIcons.compass,
                     label: 'All',
                     isSelected: _currentIndex == 0,
-                    selectedBackgroundColor: Apptheme.white,
-                    selectedForegroundColor: Apptheme.primary,
+                    selectedBackgroundColor:
+                        settingsProvider.isDark
+                            ? Apptheme.primary
+                            : Apptheme.white,
+                    selectedForegroundColor:
+                        settingsProvider.isDark
+                            ? Apptheme.white
+                            : Apptheme.primary,
                     unselectedForegroundColor: Apptheme.white,
+                    borderColor: Apptheme.primary,
                   ),
                   ...CategoryModel.categories.map(
                     (category) => TabbarItem(
@@ -82,9 +97,16 @@ class _HomeHeaderState extends State<HomeHeader> {
                       isSelected:
                           _currentIndex ==
                           CategoryModel.categories.indexOf(category) + 1,
-                      selectedBackgroundColor: Apptheme.white,
-                      selectedForegroundColor: Apptheme.primary,
+                      selectedBackgroundColor:
+                          settingsProvider.isDark
+                              ? Apptheme.primary
+                              : Apptheme.white,
+                      selectedForegroundColor:
+                          settingsProvider.isDark
+                              ? Apptheme.white
+                              : Apptheme.primary,
                       unselectedForegroundColor: Apptheme.white,
+                      borderColor: Apptheme.primary,
                     ),
                   ),
                 ],

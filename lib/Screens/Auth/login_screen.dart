@@ -3,6 +3,7 @@ import 'package:delightful_toast/delight_toast.dart';
 import 'package:delightful_toast/toast/components/toast_card.dart';
 import 'package:delightful_toast/toast/utils/enums.dart';
 import 'package:eventlyy/FireBase/firebase_services.dart';
+import 'package:eventlyy/Providers/settings_provider.dart';
 import 'package:eventlyy/Providers/user_provider.dart';
 import 'package:eventlyy/Screens/Auth/forget_password_screen.dart';
 import 'package:eventlyy/Screens/Auth/register_screen.dart';
@@ -96,6 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
     Size size = MediaQuery.sizeOf(context);
     TextTheme textTheme = Theme.of(context).textTheme;
     AppLocalizations localizations = AppLocalizations.of(context)!;
+    SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -274,7 +276,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           children: [
                             Text(
                               localizations.login_dont_have_account,
-                              style: textTheme.titleMedium,
+                              style: textTheme.titleMedium!.copyWith(
+                                color: settingsProvider.isDark ? Apptheme.white : Apptheme.black,
+                              ),
                             ),
                             TextButton(
                               onPressed: () {
@@ -327,7 +331,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.symmetric(vertical: 16),
                             elevation: 0,
-                            backgroundColor: Apptheme.white,
+                            backgroundColor:settingsProvider.isDark ? Apptheme.darkModeBackGround : Apptheme.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16),
                             ),

@@ -1,9 +1,11 @@
+import 'package:eventlyy/Providers/settings_provider.dart';
 import 'package:eventlyy/Screens/Auth/login_screen.dart';
 import 'package:eventlyy/Screens/onboarding/onboarding.dart';
 import 'package:eventlyy/Widgets/default_elevated_button.dart';
 import 'package:eventlyy/apptheme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -22,6 +24,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -60,7 +63,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         Text(
                           Onboarding.subTitle[index],
                           // textAlign: TextAlign.start,
-                          style: Theme.of(context).textTheme.titleMedium,
+                          style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                            color: settingsProvider.isDark ? Apptheme.white : Apptheme.black
+                          ),
                         ),
                       ],
                     ),
@@ -111,7 +116,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       effect: ExpandingDotsEffect(
                         dotHeight: 8,
                         dotWidth: 8,
-                        dotColor: Apptheme.black,
+                        dotColor: settingsProvider.isDark ? Apptheme.white : Apptheme.black,
                         activeDotColor: Apptheme.primary,
                       ),
                       onDotClicked: (index) {

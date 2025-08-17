@@ -1,5 +1,6 @@
 import 'package:eventlyy/Models/event_model.dart';
 import 'package:eventlyy/Providers/event_provider.dart';
+import 'package:eventlyy/Providers/settings_provider.dart';
 import 'package:eventlyy/Providers/user_provider.dart';
 import 'package:eventlyy/apptheme.dart';
 import 'package:eventlyy/l10n/app_localizations.dart';
@@ -19,7 +20,7 @@ class EventItem extends StatelessWidget {
     bool isFavourite = userProvider.checkIsEventFavourite(event.id);
     AppLocalizations localizations = AppLocalizations.of(context)!;
     bool isarabic = Localizations.localeOf(context).languageCode == 'ar';
-
+    SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: Apptheme.primary),
@@ -40,8 +41,9 @@ class EventItem extends StatelessWidget {
             padding: EdgeInsets.all(8),
             margin: EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Apptheme.white,
+              color: settingsProvider.isDark ? Apptheme.darkModeBackGround : Apptheme.white,
               borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: Apptheme.primary)
             ),
             child: Column(
               children: [
@@ -67,8 +69,11 @@ class EventItem extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Apptheme.white,
+                color: settingsProvider.isDark
+                        ? Apptheme.darkModeBackGround
+                        :  Apptheme.white,
                 borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Apptheme.primary)
               ),
               child: Text(
                 '${localizations.created_by} ${event.userCreatedThisEventName}',
@@ -85,8 +90,11 @@ class EventItem extends StatelessWidget {
               padding: EdgeInsets.all(8),
               margin: EdgeInsets.symmetric(horizontal: 8),
               decoration: BoxDecoration(
-                color: Apptheme.white,
+                color: settingsProvider.isDark
+                        ? Apptheme.darkModeBackGround
+                        :  Apptheme.white,
                 borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Apptheme.primary)
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -94,7 +102,9 @@ class EventItem extends StatelessWidget {
                   Expanded(
                     child: Text(
                       event.title,
-                      style: Theme.of(context).textTheme.labelLarge,
+                      style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                        color: settingsProvider.isDark ? Apptheme.white : Apptheme.black
+                      ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
