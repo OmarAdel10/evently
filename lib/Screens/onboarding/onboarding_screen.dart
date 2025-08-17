@@ -4,6 +4,7 @@ import 'package:eventlyy/Screens/Home/Tabs/profileTab/language.dart';
 import 'package:eventlyy/Screens/onboarding/onboarding.dart';
 import 'package:eventlyy/Widgets/default_elevated_button.dart';
 import 'package:eventlyy/apptheme.dart';
+import 'package:eventlyy/l10n/app_localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -29,6 +30,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
     TextTheme textTheme = Theme.of(context).textTheme;
     Size size = MediaQuery.sizeOf(context);
+    AppLocalizations localizations = AppLocalizations.of(context)!;
 
     List<Language> languages = [
       Language(code: 'en', name: 'English'),
@@ -67,9 +69,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                       ),
                                       const SizedBox(height: 28),
                                       Align(
-                                        alignment: Alignment.topLeft,
+                                        alignment:
+                                            settingsProvider.isArabic
+                                                ? Alignment.topRight
+                                                : Alignment.topLeft,
                                         child: Text(
-                                          Onboarding.title[index],
+                                          Onboarding.getTitle(context)[index],
                                           // textAlign: TextAlign.start, // IDK why this doesn't work
                                           style:
                                               textTheme.titleLarge,
@@ -77,7 +82,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                       ),
                                       const SizedBox(height: 28),
                                       Text(
-                                        Onboarding.subTitle[index],
+                                        Onboarding.getSubTitle(context)[index],
                                         // textAlign: TextAlign.start,
                                         style: textTheme.titleMedium!.copyWith(
                                           color:
@@ -110,7 +115,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                       setState(() {});
                                     },
                                     icon: Icon(
-                                      CupertinoIcons.arrow_left_circle,
+                                      settingsProvider.isArabic ? CupertinoIcons.arrow_right_circle : CupertinoIcons.arrow_left_circle,
                                       size: 40,
                                       color: Apptheme.primary,
                                     ),
@@ -155,7 +160,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                   setState(() {});
                                 },
                                 icon: Icon(
-                                  CupertinoIcons.arrow_right_circle,
+                                  settingsProvider.isArabic
+                                      ? CupertinoIcons.arrow_left_circle
+                                      : CupertinoIcons.arrow_right_circle,
                                   size: 40,
                                   color: Apptheme.primary,
                                 ),
@@ -175,15 +182,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             ),
                             const SizedBox(height: 28),
                             Align(
-                              alignment: Alignment.topLeft,
+                              alignment: settingsProvider.isArabic ? Alignment.topRight : Alignment.topLeft,
                               child: Text(
-                                'Personalize Your Experience',
+                                localizations.onboarding_p1_title,
                                 style: textTheme.titleLarge,
                               ),
                             ),
                             const SizedBox(height: 28),
                             Text(
-                              'Choose your preferred theme and language to get started with a comfortable, tailored experience that suits your style.',
+                              localizations.onboarding_p1_description,
                               style: textTheme.titleMedium!.copyWith(
                                 color:
                                     settingsProvider.isDark
@@ -196,7 +203,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             Row(
                               children: [
                                 Text(
-                                  'Language',
+                                  localizations.language,
                                   style: textTheme.headlineMedium
                                 ),
                                 Spacer(),
@@ -239,7 +246,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             Row(
                               children: [
                                 Text(
-                                  'Dark Theme',
+                                  localizations.dark_theme,
                                   style: textTheme.headlineMedium
                                 ),
                                 Spacer(),
@@ -261,7 +268,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               padding: EdgeInsets.symmetric(vertical: 20),
                               width: double.infinity,
                               child: DefaultElevatedButton(
-                                text: 'Let\'s Start',
+                                text: localizations.onboarding_p1_lets_start,
                                 onPressed: () {
                                   letsStart = true;
                                   setState(() {});

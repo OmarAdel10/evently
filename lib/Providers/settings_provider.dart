@@ -22,6 +22,8 @@ class SettingsProvider with ChangeNotifier {
   //   notifyListeners();
   // }
 
+  bool get isArabic => languageCode == 'ar';
+
   // My second idea to do shared prefs for the localization
   Future<void> loadSavedLanguage() async {
     final prefs = await SharedPreferences.getInstance();
