@@ -1,3 +1,4 @@
+import 'package:eventlyy/Models/event_model.dart';
 import 'package:eventlyy/Providers/event_provider.dart';
 import 'package:eventlyy/Providers/settings_provider.dart';
 import 'package:eventlyy/Providers/user_provider.dart';
@@ -5,6 +6,7 @@ import 'package:eventlyy/Screens/Auth/forget_password_screen.dart';
 import 'package:eventlyy/Screens/Auth/login_screen.dart';
 import 'package:eventlyy/Screens/Auth/register_screen.dart';
 import 'package:eventlyy/Screens/Home/Events/create_event_screen.dart';
+import 'package:eventlyy/Screens/Home/Events/event_details.dart';
 import 'package:eventlyy/Screens/Home/home_screen.dart';
 import 'package:eventlyy/Screens/onboarding/onboarding_screen.dart';
 import 'package:eventlyy/apptheme.dart';
@@ -61,6 +63,11 @@ class Evently extends StatelessWidget {
         ForgetPasswordScreen.routeName: (_) => ForgetPasswordScreen(),
         OnboardingScreen.routeName: (_) => OnboardingScreen(),
         CreateEventScreen.routeName: (_) => CreateEventScreen(),
+        EventDetails.routeName: (context) {
+          final event =
+              ModalRoute.of(context)!.settings.arguments as EventModel;
+          return EventDetails(event: event);
+        },
       },
       // initialRoute:
       //     showHome ? LoginScreen.routeName : OnboardingScreen.routeName,
