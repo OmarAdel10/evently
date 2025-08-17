@@ -65,5 +65,8 @@
   "please_provide_a_time": "يرجى تقديم وقت!",
   "choose_time": "اختر وقت",
   "logout": "تسجيل الخروج؟",
-  "cancel": "إلغاء"
+  "cancel": "إلغاء",
+  "hello_again_lets_begin": "مرحباً مجدداً، لنبدأ",
+  "hi_there_welcome_to_evently": "مرحباً، مرحباً بك في Evently \uD83D\uDE03",
+  "event_added_successfully": "تمت إضافة الحدث بنجاح !"
 }

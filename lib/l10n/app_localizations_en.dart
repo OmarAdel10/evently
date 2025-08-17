@@ -215,4 +215,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cancel => 'Cancel';
+
+  @override
+  String get hello_again_lets_begin => 'Hello Again, Let\'s Begin';
+
+  @override
+  String get hi_there_welcome_to_evently => 'Hi There, Welcome to Evently 😃';
+
+  @override
+  String get event_added_successfully => 'Event Added Successfully !';
 }

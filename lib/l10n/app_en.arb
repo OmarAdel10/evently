@@ -65,5 +65,8 @@
   "please_provide_a_time": "Please Provide A Time !",
   "choose_time": "Choose Time",
   "logout": "Logout?",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "hello_again_lets_begin": "Hello Again, Let's Begin",
+  "hi_there_welcome_to_evently": "Hi There, Welcome to Evently \uD83D\uDE03",
+  "event_added_successfully": "Event Added Successfully !"
 }

@@ -442,7 +442,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                 ),
               ),
               title: Text(
-                'Event Added Successfully !',
+                AppLocalizations.of(context)!.event_added_successfully,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,

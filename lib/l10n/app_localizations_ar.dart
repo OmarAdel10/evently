@@ -215,4 +215,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get cancel => 'إلغاء';
+
+  @override
+  String get hello_again_lets_begin => 'مرحباً مجدداً، لنبدأ';
+
+  @override
+  String get hi_there_welcome_to_evently => 'مرحباً، مرحباً بك في Evently 😃';
+
+  @override
+  String get event_added_successfully => 'تمت إضافة الحدث بنجاح !';
 }

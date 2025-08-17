@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _isCentered = true;
   bool _showText = false;
-  final String _text = 'Hello Again, Let\'s Begin';
+  late String _text;
   String _displayedText = '';
   bool _eraseText = false;
   bool _showLoginForm = false;
@@ -49,7 +49,10 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    _displayedText = _text;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _text = AppLocalizations.of(context)!.hello_again_lets_begin;
+      _displayedText = _text;
+    });
     _startAnimationSequence();
   }
 
@@ -172,7 +175,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               return localizations.field_can_not_be_empty;
                             }
                             if (value.length < 5) {
-                              return localizations.email_can_not_be_less_than_5_characters;
+                              return localizations
+                                  .email_can_not_be_less_than_5_characters;
                             }
                             return null;
                           },
@@ -188,7 +192,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               return localizations.field_can_not_be_empty;
                             }
                             if (value.length < 6) {
-                              return localizations.password_can_not_be_less_than_6_characters;
+                              return localizations
+                                  .password_can_not_be_less_than_6_characters;
                             }
                             return null;
                           },
@@ -277,7 +282,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             Text(
                               localizations.login_dont_have_account,
                               style: textTheme.titleMedium!.copyWith(
-                                color: settingsProvider.isDark ? Apptheme.white : Apptheme.black,
+                                color:
+                                    settingsProvider.isDark
+                                        ? Apptheme.white
+                                        : Apptheme.black,
                               ),
                             ),
                             TextButton(
@@ -331,7 +339,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.symmetric(vertical: 16),
                             elevation: 0,
-                            backgroundColor:settingsProvider.isDark ? Apptheme.darkModeBackGround : Apptheme.white,
+                            backgroundColor:
+                                settingsProvider.isDark
+                                    ? Apptheme.darkModeBackGround
+                                    : Apptheme.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16),
                             ),

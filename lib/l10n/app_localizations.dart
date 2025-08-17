@@ -493,6 +493,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cancel'**
   String get cancel;
+
+  /// No description provided for @hello_again_lets_begin.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello Again, Let\'s Begin'**
+  String get hello_again_lets_begin;
+
+  /// No description provided for @hi_there_welcome_to_evently.
+  ///
+  /// In en, this message translates to:
+  /// **'Hi There, Welcome to Evently 😃'**
+  String get hi_there_welcome_to_evently;
+
+  /// No description provided for @event_added_successfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Event Added Successfully !'**
+  String get event_added_successfully;
 }
 
 class _AppLocalizationsDelegate

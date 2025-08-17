@@ -37,7 +37,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   bool _isCentered = true;
   bool _showText = false;
-  final String _text = 'Hi There, Welcome to Evently \u{1F603}';
+  late String _text;
   String _displayedText = '';
   bool _eraseText = false;
   bool _showLoginForm = false;
@@ -53,7 +53,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void initState() {
     super.initState();
-    _displayedText = _text;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _text = AppLocalizations.of(context)!.hi_there_welcome_to_evently;
+      _displayedText = _text;
+    });
     _startAnimationSequence();
   }
 
@@ -103,7 +106,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     Size size = MediaQuery.sizeOf(context);
     TextTheme textTheme = Theme.of(context).textTheme;
     AppLocalizations localizations = AppLocalizations.of(context)!;
-        SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
+    SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
 
     return Scaffold(
       body: SafeArea(
@@ -183,7 +186,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               return localizations.field_can_not_be_empty;
                             }
                             if (value.length < 3) {
-                              return localizations.name_can_not_be_less_than_3_characters;
+                              return localizations
+                                  .name_can_not_be_less_than_3_characters;
                             }
                             return null;
                           },
@@ -198,7 +202,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               return localizations.field_can_not_be_empty;
                             }
                             if (value.length < 5) {
-                              return localizations.email_can_not_be_less_than_5_characters;
+                              return localizations
+                                  .email_can_not_be_less_than_5_characters;
                             }
                             return null;
                           },
@@ -214,7 +219,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               return localizations.field_can_not_be_empty;
                             }
                             if (value.length < 8) {
-                              return localizations.password_can_not_be_less_than_6_characters;
+                              return localizations
+                                  .password_can_not_be_less_than_6_characters;
                             }
                             return null;
                           },
@@ -287,7 +293,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             Text(
                               localizations.register_already_have_account,
                               style: textTheme.titleMedium!.copyWith(
-                                color: settingsProvider.isDark ? Apptheme.white : Apptheme.black,
+                                color:
+                                    settingsProvider.isDark
+                                        ? Apptheme.white
+                                        : Apptheme.black,
                               ),
                             ),
                             TextButton(
