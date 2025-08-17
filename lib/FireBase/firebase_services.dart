@@ -86,7 +86,7 @@ class FirebaseServices {
       FirebaseAuth.instance.currentUser!.uid,
     );
     return userDoc.update({
-      'favouriteEventsIds' : FieldValue.arrayUnion([eventId])
+      'favouriteEventsIds': FieldValue.arrayUnion([eventId]),
     });
   }
 
@@ -96,8 +96,16 @@ class FirebaseServices {
       FirebaseAuth.instance.currentUser!.uid,
     );
     return userDoc.update({
-      'favouriteEventsIds' : FieldValue.arrayRemove([eventId])
+      'favouriteEventsIds': FieldValue.arrayRemove([eventId]),
     });
+  }
+
+  static Future<void> updateEventDetails(
+    String eventId,
+    Map<String, dynamic> data,
+  ) async {
+    CollectionReference<EventModel> eventsCollection = getEventCollection();
+    return eventsCollection.doc(eventId).update(data);
   }
 
   // static Future<UserCredential?> googleSignInFunc() async {
