@@ -1,3 +1,4 @@
+import 'package:eventlyy/Providers/settings_provider.dart';
 import 'package:eventlyy/Providers/user_provider.dart';
 import 'package:eventlyy/Screens/Auth/login_screen.dart';
 import 'package:eventlyy/Screens/Home/Tabs/profileTab/language.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileTab extends StatelessWidget {
   const ProfileTab({super.key});
@@ -17,8 +19,9 @@ class ProfileTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of<UserProvider>(context);
+    SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
     TextTheme textTheme = Theme.of(context).textTheme;
-        AppLocalizations localizations = AppLocalizations.of(context)!;
+    AppLocalizations localizations = AppLocalizations.of(context)!;
 
     List<Language> languages = [
       Language(code: 'en', name: 'English'),
@@ -56,7 +59,7 @@ class ProfileTab extends StatelessWidget {
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: DropdownButton(
-                        value: 'en',
+                        value: settingsProvider.languageCode,
                         items:
                             languages
                                 .map(
@@ -69,7 +72,21 @@ class ProfileTab extends StatelessWidget {
                                   ),
                                 )
                                 .toList(),
-                        onChanged: (value) {},
+                        onChanged: (languageCode) async {
+                          if (languageCode == null) return;
+                          settingsProvider.updateLanguage(languageCode);
+                          bool isArabic =
+                              Localizations.localeOf(context).languageCode ==
+                              'ar';
+                          print(isArabic);
+                          if (isArabic == false) {
+                            final prefs = await SharedPreferences.getInstance();
+                            await prefs.setBool('isarabic', true);
+                          } else {
+                            final prefs = await SharedPreferences.getInstance();
+                            await prefs.setBool('isarabic', false);
+                          }
+                        },
                         borderRadius: BorderRadius.circular(16),
                         dropdownColor: Apptheme.white,
                         iconEnabledColor: Apptheme.primary,

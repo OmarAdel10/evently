@@ -33,6 +33,7 @@ Future<void> main() async {
           create: (context) => EventProvider()..getEvents(),
         ),
         ChangeNotifierProvider(create: (context) => UserProvider()),
+        ChangeNotifierProvider(create: (context) => SettingsProvider()..lastLanguage()),
       ],
       child: Evently(showHome: showHome),
     ),
