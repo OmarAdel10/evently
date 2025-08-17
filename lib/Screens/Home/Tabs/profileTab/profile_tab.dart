@@ -42,7 +42,10 @@ class ProfileTab extends StatelessWidget {
                     Text(
                       localizations.language,
                       style: textTheme.titleLarge!.copyWith(
-                        color: settingsProvider.isDark ? Apptheme.white : Apptheme.black,
+                        color:
+                            settingsProvider.isDark
+                                ? Apptheme.white
+                                : Apptheme.black,
                       ),
                     ),
                     Spacer(),
@@ -85,7 +88,10 @@ class ProfileTab extends StatelessWidget {
                           settingsProvider.updateLanguage(languageCode);
                         },
                         borderRadius: BorderRadius.circular(16),
-                        dropdownColor: Apptheme.white,
+                        dropdownColor:
+                            settingsProvider.isDark
+                                ? Apptheme.darkModeBackGround
+                                : Apptheme.white,
                         iconEnabledColor: Apptheme.primary,
                         underline: SizedBox(),
                       ),
@@ -99,7 +105,8 @@ class ProfileTab extends StatelessWidget {
                     Text(
                       localizations.dark_theme,
                       style: textTheme.titleLarge!.copyWith(
-                        color: settingsProvider.isDark
+                        color:
+                            settingsProvider.isDark
                                 ? Apptheme.white
                                 : Apptheme.black,
                       ),
