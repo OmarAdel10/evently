@@ -88,7 +88,7 @@ class _HomeHeaderState extends State<HomeHeader> {
                             ? Apptheme.white
                             : Apptheme.primary,
                     unselectedForegroundColor: Apptheme.white,
-                    borderColor: Apptheme.primary,
+                    borderColor: settingsProvider.isDark ? Apptheme.primary : Apptheme.white,
                   ),
                   ...CategoryModel.categories.map(
                     (category) => TabbarItem(
@@ -106,7 +106,10 @@ class _HomeHeaderState extends State<HomeHeader> {
                               ? Apptheme.white
                               : Apptheme.primary,
                       unselectedForegroundColor: Apptheme.white,
-                      borderColor: Apptheme.primary,
+                      borderColor:
+                          settingsProvider.isDark
+                              ? Apptheme.primary
+                              : Apptheme.white,
                     ),
                   ),
                 ],
