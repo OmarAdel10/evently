@@ -34,7 +34,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey();
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
-  DateFormat dateFormat = DateFormat('dd/MM/yyyy');
+  // DateFormat dateFormat = DateFormat('dd/MM/yyyy', Provider.of<SettingsProvider>(context).languageCode);
 
   int _currentIndex = 0;
   CategoryModel selectedCategory = CategoryModel.categories.first;
@@ -246,7 +246,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                           child: Text(
                             selectedDate == null
                                 ? localizations.choose_date
-                                : dateFormat.format(selectedDate!),
+                                : DateFormat('dd/MM/yyyy', settingsProvider.languageCode).format(selectedDate!),
                             style: textTheme.titleMedium!.copyWith(
                               color: Apptheme.primary,
                             ),
