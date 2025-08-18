@@ -113,6 +113,12 @@ class FirebaseServices {
     return eventsCollection.doc(eventId).delete();
   }
 
+  static Future<void> updateUserName(String newUserName) async {
+    FirebaseAuth.instance.currentUser!.updateDisplayName(newUserName);
+    CollectionReference<UserModel> usersCollection = getUserCollection();
+    usersCollection.doc(FirebaseAuth.instance.currentUser!.uid).update({'name' : newUserName});
+  }
+
   // static Future<UserCredential?> googleSignInFunc() async {
   //   try {
   //     final GoogleSignInAccount? gUser = await GoogleSignIn(
