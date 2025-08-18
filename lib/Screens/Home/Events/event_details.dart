@@ -159,7 +159,7 @@ class _EventDetailsState extends State<EventDetails> {
                         clipBehavior: Clip.antiAlias,
                         borderRadius: BorderRadiusGeometry.circular(16),
                         child: Image.asset(
-                          'assets/images/${isEdit ? widget.event.category.imageName : selectedCategory.imageName}.png',
+                          'assets/images/${selectedCategory.imageName}.png',
                           height: MediaQuery.sizeOf(context).height * 0.23,
                         ).redacted(context: context, redact: isLoading),
                       ),
