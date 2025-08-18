@@ -102,10 +102,10 @@ class FirebaseServices {
 
   static Future<void> updateEventDetails(
     String eventId,
-    Map<String, dynamic> data,
+    EventModel event,
   ) async {
     CollectionReference<EventModel> eventsCollection = getEventCollection();
-    return eventsCollection.doc(eventId).update(data);
+    return eventsCollection.doc(eventId).update(event.toJSON());
   }
 
   // static Future<UserCredential?> googleSignInFunc() async {

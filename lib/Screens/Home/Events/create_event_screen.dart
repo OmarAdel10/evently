@@ -40,14 +40,12 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   CategoryModel selectedCategory = CategoryModel.categories.first;
   late bool isLoading;
   late String userName;
-  late EventProvider eventProvider;
 
   @override
   void initState() {
     super.initState();
     getUserNAME();
     isLoadingShimmer();
-    // WidgetsBinding.instance.addPostFrameCallback((_) {});
   }
 
   Future<void> getUserNAME() async {
@@ -65,7 +63,6 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
-    eventProvider = Provider.of<EventProvider>(context);
     AppLocalizations localizations = AppLocalizations.of(context)!;
     SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
 
@@ -131,7 +128,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                           CategoryModel.categories.indexOf(category),
                       selectedBackgroundColor: Apptheme.primary,
                       selectedForegroundColor: settingsProvider.isDark ? Apptheme.darkModeBackGround : Apptheme.white,
-                      unselectedForegroundColor: Apptheme.white,
+                      unselectedForegroundColor: Apptheme.primary,
                       borderColor: Apptheme.primary,
                     ),
                   ),
@@ -425,7 +422,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
       );
       FirebaseServices.createEvent(event).then((_) {
         Navigator.of(context).pop();
-        eventProvider.getEvents();
+        Provider.of<EventProvider>(context, listen: false).getEvents();
         DelightToastBar(
           position: DelightSnackbarPosition.top,
           autoDismiss: true,
