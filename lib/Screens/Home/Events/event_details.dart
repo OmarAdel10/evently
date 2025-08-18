@@ -76,7 +76,11 @@ class _EventDetailsState extends State<EventDetails> {
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(isEdit ? localizations.edit_event_screen_edit_event : localizations.event_details),
+        title: Text(
+          isEdit
+              ? localizations.edit_event_screen_edit_event
+              : localizations.event_details,
+        ),
         actions:
             isCreator
                 ? [
@@ -98,7 +102,42 @@ class _EventDetailsState extends State<EventDetails> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      FirebaseServices.deleteEvent(widget.event.id).then((_) {
+                        Provider.of<EventProvider>(context, listen: false).getEvents();
+                        Navigator.of(context).pop();
+                        DelightToastBar(
+                          position: DelightSnackbarPosition.top,
+                          autoDismiss: true,
+                          snackbarDuration: Duration(seconds: 2),
+                          builder: (context) {
+                            return ToastCard(
+                              color: Colors.green,
+                              leading: SizedBox(
+                                width: 30,
+                                height: 30,
+                                child: Transform.scale(
+                                  scale: 4,
+                                  child: Lottie.asset(
+                                    'assets/lottie/successfully2.json',
+                                  ),
+                                ),
+                              ),
+                              title: Text(
+                                AppLocalizations.of(
+                                  context,
+                                )!.event_removed_successfully,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Apptheme.white,
+                                ),
+                              ),
+                            );
+                          },
+                        ).show(context);
+                      });
+                    },
                     icon: Icon(CupertinoIcons.delete, color: Apptheme.red),
                   ),
                 ]

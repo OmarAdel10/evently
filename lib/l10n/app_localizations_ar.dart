@@ -224,4 +224,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get event_added_successfully => 'تمت إضافة الحدث بنجاح !';
+
+  @override
+  String get event_removed_successfully => 'تمت إزالة الحدث بنجاح !';
 }

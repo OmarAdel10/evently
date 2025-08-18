@@ -511,6 +511,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Event Added Successfully !'**
   String get event_added_successfully;
+
+  /// No description provided for @event_removed_successfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Event Removed Successfully !'**
+  String get event_removed_successfully;
 }
 
 class _AppLocalizationsDelegate

@@ -108,6 +108,11 @@ class FirebaseServices {
     return eventsCollection.doc(eventId).update(event.toJSON());
   }
 
+  static Future<void> deleteEvent(String eventId) {
+    CollectionReference<EventModel> eventsCollection = getEventCollection();
+    return eventsCollection.doc(eventId).delete();
+  }
+
   // static Future<UserCredential?> googleSignInFunc() async {
   //   try {
   //     final GoogleSignInAccount? gUser = await GoogleSignIn(
