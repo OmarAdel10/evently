@@ -69,9 +69,8 @@ class Evently extends StatelessWidget {
           return EventDetails(event: event);
         },
       },
-      // initialRoute:
-      //     showHome ? LoginScreen.routeName : OnboardingScreen.routeName,
-      initialRoute: LoginScreen.routeName,
+      initialRoute:
+          showHome ? LoginScreen.routeName : OnboardingScreen.routeName,
       theme: Apptheme.lightTheme,
       darkTheme: Apptheme.darkTheme,
       themeMode: settingsProvider.themeMode,
