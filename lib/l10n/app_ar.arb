@@ -69,5 +69,8 @@
   "hello_again_lets_begin": "مرحباً مجدداً، لنبدأ",
   "hi_there_welcome_to_evently": "مرحباً، مرحباً بك في Evently \uD83D\uDE03",
   "event_added_successfully": "تمت إضافة الحدث بنجاح !",
-  "event_removed_successfully": "تمت إزالة الحدث بنجاح !"
+  "event_removed_successfully": "تمت إزالة الحدث بنجاح !",
+  "error": "حدث خطأ.",
+  "update_settings": "تحديث الإعدادات",
+  "settings_updated_successfully": "تم تحديث الإعدادات بنجاح !"
 }

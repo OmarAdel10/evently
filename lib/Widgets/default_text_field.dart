@@ -12,6 +12,7 @@ class DefaultTextField extends StatefulWidget {
   final int maxLines;
   final TextEditingController controller;
   final String? Function(String?)? validator;
+  final bool readOnly;
   final void Function(String)? onChanged;
   const DefaultTextField({
     required this.text,
@@ -21,7 +22,8 @@ class DefaultTextField extends StatefulWidget {
     this.hasPrefix = false,
     this.validator,
     this.maxLines = 1,
-    this.onChanged
+    this.onChanged,
+    this.readOnly = false
   });
 
   @override
@@ -35,6 +37,7 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
   Widget build(BuildContext context) {
     SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
     return TextFormField(
+      readOnly: widget.readOnly,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
       maxLines: widget.maxLines,

@@ -517,6 +517,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Event Removed Successfully !'**
   String get event_removed_successfully;
+
+  /// No description provided for @error.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred.'**
+  String get error;
+
+  /// No description provided for @update_settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Settings'**
+  String get update_settings;
+
+  /// No description provided for @settings_updated_successfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings Updated Successfully !'**
+  String get settings_updated_successfully;
 }
 
 class _AppLocalizationsDelegate

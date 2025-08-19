@@ -227,4 +227,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get event_removed_successfully => 'تمت إزالة الحدث بنجاح !';
+
+  @override
+  String get error => 'حدث خطأ.';
+
+  @override
+  String get update_settings => 'تحديث الإعدادات';
+
+  @override
+  String get settings_updated_successfully => 'تم تحديث الإعدادات بنجاح !';
 }

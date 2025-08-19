@@ -57,7 +57,7 @@
   "category_exhibition": "Exhibition",
   "category_workshop": "Workshop",
   "category_bookclub": "Book Club",
-  "created_by" : "Created By",
+  "created_by": "Created By",
   "title_can_not_be_less_than_3_characters": "Title Must Be Atleast 3 characters",
   "description_can_not_be_less_than_10_characters": "Description Must Be Atleast 10 characters",
   "please_provide_a_date": "Please Provide A Date !",
@@ -67,7 +67,10 @@
   "logout": "Logout?",
   "cancel": "Cancel",
   "hello_again_lets_begin": "Hello Again, Let's Begin",
-  "hi_there_welcome_to_evently": "Hi There, Welcome to Evently \uD83D\uDE03",
+  "hi_there_welcome_to_evently": "Hi There, Welcome to Evently 😃",
   "event_added_successfully": "Event Added Successfully !",
-  "event_removed_successfully": "Event Removed Successfully !"
+  "event_removed_successfully": "Event Removed Successfully !",
+  "error": "An error occurred.",
+  "update_settings": "Update Settings",
+  "settings_updated_successfully": "Settings Updated Successfully !"
 }

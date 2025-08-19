@@ -49,6 +49,8 @@ dependencies:
   giffy_dialog: ^2.3.0
   flutter_localizations:
     sdk: flutter
+  image_picker: ^1.2.0
+  firebase_storage: ^13.0.0
 
 dev_dependencies:
   flutter_test:

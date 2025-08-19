@@ -2,6 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventlyy/Models/event_model.dart';
 import 'package:eventlyy/Models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 // import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseServices {
@@ -116,7 +119,28 @@ class FirebaseServices {
   static Future<void> updateUserName(String newUserName) async {
     FirebaseAuth.instance.currentUser!.updateDisplayName(newUserName);
     CollectionReference<UserModel> usersCollection = getUserCollection();
-    usersCollection.doc(FirebaseAuth.instance.currentUser!.uid).update({'name' : newUserName});
+    usersCollection.doc(FirebaseAuth.instance.currentUser!.uid).update({
+      'name': newUserName,
+    });
+  }
+
+  static Future<String> updateProfileImage(
+    String imageName,
+    File imageFile,
+  ) async {
+    try {
+      Reference refStorge = FirebaseStorage.instance.ref('profile_images/$imageName.jpg');
+      await refStorge.putFile(imageFile);
+      String imageDownloadUrl = await refStorge.getDownloadURL();
+      CollectionReference<UserModel> usersCollection = getUserCollection();
+      await usersCollection.doc(FirebaseAuth.instance.currentUser!.uid).update({
+        'imageUrl': imageDownloadUrl,
+      });
+      return imageDownloadUrl;
+    } catch (e) {
+      print('Error updating profile image: $e');
+      rethrow;
+    }
   }
 
   // static Future<UserCredential?> googleSignInFunc() async {

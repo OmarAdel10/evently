@@ -227,4 +227,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get event_removed_successfully => 'Event Removed Successfully !';
+
+  @override
+  String get error => 'An error occurred.';
+
+  @override
+  String get update_settings => 'Update Settings';
+
+  @override
+  String get settings_updated_successfully => 'Settings Updated Successfully !';
 }
