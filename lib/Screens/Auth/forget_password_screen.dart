@@ -75,6 +75,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                 text: localizations.email,
                                 icon: CupertinoIcons.mail_solid,
                                 controller: _emailcontroller,
+                                hasPrefix: true,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return localizations.field_can_not_be_empty;

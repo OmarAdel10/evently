@@ -179,8 +179,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         SizedBox(height: size.height * 0.35),
                         DefaultTextField(
                           text: localizations.register_name,
-                          icon: CupertinoIcons.mail_solid,
+                          icon: CupertinoIcons.person_solid,
                           controller: _namecontroller,
+                          hasPrefix: true,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return localizations.field_can_not_be_empty;
@@ -197,6 +198,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           text: localizations.email,
                           icon: CupertinoIcons.mail_solid,
                           controller: _emailcontroller,
+                          hasPrefix: true,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return localizations.field_can_not_be_empty;
@@ -214,6 +216,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           icon: CupertinoIcons.padlock_solid,
                           controller: _passwordcontroller,
                           hasSuffix: true,
+                          hasPrefix: true,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return localizations.field_can_not_be_empty;

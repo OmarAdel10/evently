@@ -169,6 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         DefaultTextField(
                           text: localizations.email,
                           icon: CupertinoIcons.mail_solid,
+                          hasPrefix: true,
                           controller: _emailcontroller,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -187,6 +188,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           icon: CupertinoIcons.padlock_solid,
                           controller: _passwordcontroller,
                           hasSuffix: true,
+                          hasPrefix: true,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return localizations.field_can_not_be_empty;
