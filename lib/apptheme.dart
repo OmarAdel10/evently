@@ -177,6 +177,10 @@ class Apptheme {
         borderRadius: BorderRadius.circular(16),
         borderSide: BorderSide(color: grey, width: 1),
       ),
+      disabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(color: black, width: 1, strokeAlign: 2),
+      ),
     ),
 
     textTheme: TextTheme(
