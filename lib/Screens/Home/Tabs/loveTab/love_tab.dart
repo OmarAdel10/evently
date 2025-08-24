@@ -58,7 +58,19 @@ class _LoveTabState extends State<LoveTab> {
             Expanded(
               child:
                   eventProvider.displayedFavouriteEvents.isEmpty
-                      ? Lottie.asset('assets/lottie/EmptyBox.json')
+                      ? Column(
+                        children: [
+                          SizedBox(
+                            height: MediaQuery.sizeOf(context).height * 0.3,
+                          ),
+                          Lottie.asset('assets/lottie/EmptyBox.json'),
+                          const SizedBox(height: 16),
+                          Text(
+                            'No Favourite Events Found',
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                        ],
+                      )
                       : ListView.separated(
                         itemBuilder:
                             (context, index) => EventItem(

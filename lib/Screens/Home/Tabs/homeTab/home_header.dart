@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomeHeader extends StatefulWidget {
+  void Function(CategoryModel? category) selectedCategoryName;
+  HomeHeader({required this.selectedCategoryName});
   @override
   State<HomeHeader> createState() => _HomeHeaderState();
 }
@@ -71,6 +73,7 @@ class _HomeHeaderState extends State<HomeHeader> {
                       _currentIndex == 0
                           ? null
                           : CategoryModel.categories[_currentIndex - 1];
+                  widget.selectedCategoryName(selectedCategory);
                   eventProvider.filterEvents(selectedCategory);
                   setState(() {});
                 },
@@ -88,7 +91,10 @@ class _HomeHeaderState extends State<HomeHeader> {
                             ? Apptheme.white
                             : Apptheme.primary,
                     unselectedForegroundColor: Apptheme.white,
-                    borderColor: settingsProvider.isDark ? Apptheme.primary : Apptheme.white,
+                    borderColor:
+                        settingsProvider.isDark
+                            ? Apptheme.primary
+                            : Apptheme.white,
                   ),
                   ...CategoryModel.categories.map(
                     (category) => TabbarItem(
