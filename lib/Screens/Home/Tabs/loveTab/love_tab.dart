@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventlyy/Providers/event_provider.dart';
 import 'package:eventlyy/Providers/user_provider.dart';
 import 'package:eventlyy/Screens/Home/Events/event_item.dart';
@@ -19,6 +18,7 @@ class LoveTab extends StatefulWidget {
 class _LoveTabState extends State<LoveTab> {
   late EventProvider eventProvider;
   final TextEditingController _searchController = TextEditingController();
+  bool isFound = true;
 
   @override
   void initState() {
@@ -32,7 +32,6 @@ class _LoveTabState extends State<LoveTab> {
       eventProvider.filterFavouriteEvents(favouriteEventsIds);
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +50,14 @@ class _LoveTabState extends State<LoveTab> {
               icon: CupertinoIcons.search,
               onChanged: (query) {
                 eventProvider.searchResult(query);
+                if (eventProvider.displayedFavouriteEvents.isEmpty) {
+                  isFound = false;
+                  setState(() {});
+                }
+                if (query.isEmpty) {
+                  isFound = true;
+                  setState(() {});
+                }
               },
             ),
 
@@ -58,19 +65,29 @@ class _LoveTabState extends State<LoveTab> {
             Expanded(
               child:
                   eventProvider.displayedFavouriteEvents.isEmpty
-                      ? Column(
-                        children: [
-                          SizedBox(
-                            height: MediaQuery.sizeOf(context).height * 0.3,
-                          ),
-                          Lottie.asset('assets/lottie/EmptyBox.json'),
-                          const SizedBox(height: 16),
-                          Text(
-                            'No Favourite Events Found',
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                        ],
-                      )
+                      ? isFound
+                          ? Column(
+                            children: [
+                              SizedBox(
+                                height: MediaQuery.sizeOf(context).height * 0.3,
+                              ),
+                              Lottie.asset('assets/lottie/EmptyBox.json'),
+                              const SizedBox(height: 16),
+                              Text(
+                                'No Favourite Events Found',
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                            ],
+                          )
+                          : Column(
+                            children: [
+                              SizedBox(
+                                height:
+                                    MediaQuery.sizeOf(context).height * 0.15,
+                              ),
+                              Lottie.asset('assets/lottie/NodataFound.json'),
+                            ],
+                          )
                       : ListView.separated(
                         itemBuilder:
                             (context, index) => EventItem(
