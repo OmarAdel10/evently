@@ -1,4 +1,3 @@
-import 'package:eventlyy/Models/event_model.dart';
 import 'package:eventlyy/Providers/event_provider.dart';
 import 'package:eventlyy/Providers/settings_provider.dart';
 import 'package:eventlyy/Providers/user_provider.dart';
@@ -20,6 +19,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
   final showHome = prefs.getBool('showHome') ?? false;
+  final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
   await Firebase.initializeApp(
     // options: FirebaseOptions(
     //   apiKey: "AIzaSyCF45als5LN3ARHTCrjQ5NvLe4VxODx6Og",
@@ -34,7 +34,7 @@ Future<void> main() async {
         ChangeNotifierProvider(
           create: (context) => EventProvider()..getEvents(),
         ),
-        ChangeNotifierProvider(create: (context) => UserProvider()),
+        ChangeNotifierProvider(create: (context) => UserProvider()..initializeFromSavedLogin()),
         ChangeNotifierProvider(
           create:
               (context) =>
@@ -43,14 +43,15 @@ Future<void> main() async {
                     ..loadSavedTheme(),
         ),
       ],
-      child: Evently(showHome: showHome),
+      child: Evently(showHome: showHome, isLoggesIn: isLoggedIn,),
     ),
   );
 }
 
 class Evently extends StatelessWidget {
   final bool showHome;
-  const Evently({super.key, required this.showHome});
+  final bool isLoggesIn;
+  const Evently({super.key, required this.showHome, required this.isLoggesIn});
   @override
   Widget build(BuildContext context) {
     SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
@@ -63,14 +64,10 @@ class Evently extends StatelessWidget {
         ForgetPasswordScreen.routeName: (_) => ForgetPasswordScreen(),
         OnboardingScreen.routeName: (_) => OnboardingScreen(),
         CreateEventScreen.routeName: (_) => CreateEventScreen(),
-        EventDetails.routeName: (context) {
-          final event =
-              ModalRoute.of(context)!.settings.arguments as EventModel;
-          return EventDetails(event: event);
-        },
+        EventDetails.routeName: (_) => EventDetails(),
       },
       initialRoute:
-          showHome ? LoginScreen.routeName : OnboardingScreen.routeName,
+          showHome ? (isLoggesIn ? HomeScreen.routeName : LoginScreen.routeName) : OnboardingScreen.routeName,
       theme: Apptheme.lightTheme,
       darkTheme: Apptheme.darkTheme,
       themeMode: settingsProvider.themeMode,
