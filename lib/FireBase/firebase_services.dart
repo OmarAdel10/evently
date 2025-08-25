@@ -68,6 +68,13 @@ class FirebaseServices {
     return docSnapShot.get('name');
   }
 
+  static Future<String> getUserEmail() async {
+    CollectionReference<UserModel> usersCollection = getUserCollection();
+    DocumentSnapshot<UserModel> docSnapShot =
+        await usersCollection.doc(FirebaseAuth.instance.currentUser!.uid).get();
+    return docSnapShot.get('email');
+  }
+
   static Future<void> createEvent(EventModel event) async {
     CollectionReference<EventModel> eventsCollection = getEventCollection();
     DocumentReference<EventModel> doc = eventsCollection.doc();
@@ -128,7 +135,9 @@ class FirebaseServices {
     File imageFile,
   ) async {
     try {
-      Reference refStorge = FirebaseStorage.instance.ref('profile_images/$imageName.jpg');
+      Reference refStorge = FirebaseStorage.instance.ref(
+        'profile_images/$imageName.jpg',
+      );
       await refStorge.putFile(imageFile);
       String imageDownloadUrl = await refStorge.getDownloadURL();
       CollectionReference<UserModel> usersCollection = getUserCollection();
