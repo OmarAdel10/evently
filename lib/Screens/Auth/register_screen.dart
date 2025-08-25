@@ -221,7 +221,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             if (value == null || value.isEmpty) {
                               return localizations.field_can_not_be_empty;
                             }
-                            if (value.length < 8) {
+                            if (value.length < 6) {
                               return localizations
                                   .password_can_not_be_less_than_6_characters;
                             }
