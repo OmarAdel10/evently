@@ -36,43 +36,85 @@ class _EventDetailsState extends State<EventDetails> {
   final GlobalKey<FormState> _formKey = GlobalKey();
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
-  DateFormat dateFormat = DateFormat('dd/MM/yyyy');
+  final DateFormat dateFormat = DateFormat('dd/MM/yyyy');
 
   int _currentIndex = 0;
   CategoryModel selectedCategory = CategoryModel.categories.first;
-  late bool isLoading;
-  late String userName;
+  bool isLoading = true;
+  String userName = '';
+  String userEmail = '';
+  late final EventModel event;
+  late SettingsProvider settingsProvider;
+  late EventProvider eventProvider;
+  late UserProvider userProvider;
+  late AppLocalizations localizations;
+  late TextTheme textTheme;
+  late Size size;
+  bool _isInitialized = false;
 
   @override
   void initState() {
     super.initState();
     getUserNAME();
-    isLoadingShimmer();
+    getUserEMAIL();
   }
 
   Future<void> getUserNAME() async {
     userName = await FirebaseServices.getUserName();
   }
 
+  Future<void> getUserEMAIL() async {
+    userEmail = await FirebaseServices.getUserEmail();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_isInitialized) {
+      event = ModalRoute.of(context)!.settings.arguments as EventModel;
+      selectedDate = event.dateTime;
+      selectedTime = TimeOfDay.fromDateTime(event.dateTime);
+      _isInitialized = true;
+      isLoadingShimmer();
+    }
+
+    settingsProvider = Provider.of<SettingsProvider>(context);
+    eventProvider = Provider.of<EventProvider>(context);
+    userProvider = Provider.of<UserProvider>(context);
+    localizations = AppLocalizations.of(context)!;
+    textTheme = Theme.of(context).textTheme;
+    size = MediaQuery.sizeOf(context);
+  }
+
   Future<void> isLoadingShimmer() async {
-    isLoading = true;
+    if (mounted) {
+      setState(() {
+        isLoading = true;
+      });
+    }
     await Future.delayed(Duration(milliseconds: 200), () {
-      isLoading = false;
-      setState(() {});
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     });
   }
 
   @override
+  void dispose() {
+    _eventController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    AppLocalizations localizations = AppLocalizations.of(context)!;
-    SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
-    EventProvider eventProvider = Provider.of<EventProvider>(context);
     bool isCreator = eventProvider.isCreatorOfThisEvent(
-      widget.event.userId,
+      event.userId,
       Provider.of<UserProvider>(context, listen: false).currentUser!.id,
     );
-    TextTheme textTheme = Theme.of(context).textTheme;
-    Size size = MediaQuery.sizeOf(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -87,9 +129,9 @@ class _EventDetailsState extends State<EventDetails> {
                     onPressed: () {
                       isEdit = !isEdit;
                       if (isEdit) {
-                        selectedCategory = widget.event.category;
+                        selectedCategory = event.category;
                         _currentIndex = CategoryModel.categories.indexWhere(
-                          (category) => category.id == widget.event.category.id,
+                          (category) => category.id == event.category.id,
                         );
                       }
                       setState(() {});
@@ -102,8 +144,11 @@ class _EventDetailsState extends State<EventDetails> {
                   ),
                   IconButton(
                     onPressed: () {
-                      FirebaseServices.deleteEvent(widget.event.id).then((_) {
-                        Provider.of<EventProvider>(context, listen: false).getEvents();
+                      FirebaseServices.deleteEvent(event.id).then((_) {
+                        Provider.of<EventProvider>(
+                          context,
+                          listen: false,
+                        ).getEvents();
                         Navigator.of(context).pop();
                         DelightToastBar(
                           position: DelightSnackbarPosition.top,
@@ -218,17 +263,19 @@ class _EventDetailsState extends State<EventDetails> {
                             ),
                             const SizedBox(height: 8),
                             DefaultTextField(
-                              text: widget.event.title,
+                              text: event.title,
                               hasPrefix: true,
                               icon: CupertinoIcons.square_pencil,
                               controller: _eventController,
                               validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return localizations.field_can_not_be_empty;
-                                }
-                                if (value.length < 3) {
-                                  return localizations
-                                      .title_can_not_be_less_than_3_characters;
+                                // if (value == null || value.isEmpty) {
+                                //   return localizations.field_can_not_be_empty;
+                                // }
+                                if (value!.isNotEmpty) {
+                                  if (value.length < 3) {
+                                    return localizations
+                                        .title_can_not_be_less_than_3_characters;
+                                  }
                                 }
                                 return null;
                               },
@@ -245,16 +292,18 @@ class _EventDetailsState extends State<EventDetails> {
                             ),
                             const SizedBox(height: 8),
                             DefaultTextField(
-                              text: widget.event.description,
+                              text: event.description,
                               controller: _descriptionController,
                               maxLines: 4,
                               validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return localizations.field_can_not_be_empty;
-                                }
-                                if (value.length <= 10) {
-                                  return localizations
-                                      .description_can_not_be_less_than_10_characters;
+                                // if (value == null) {
+                                //   return localizations.field_can_not_be_empty;
+                                // }
+                                if (value!.isNotEmpty) {
+                                  if (value.length <= 10) {
+                                    return localizations
+                                        .description_can_not_be_less_than_10_characters;
+                                  }
                                 }
                                 return null;
                               },
@@ -334,7 +383,7 @@ class _EventDetailsState extends State<EventDetails> {
                                         ? DateFormat(
                                           'dd/MM/yyyy',
                                           settingsProvider.languageCode,
-                                        ).format(widget.event.dateTime)
+                                        ).format(event.dateTime)
                                         : dateFormat.format(selectedDate!),
                                     style: textTheme.titleMedium!.copyWith(
                                       color: Apptheme.primary,
@@ -414,7 +463,7 @@ class _EventDetailsState extends State<EventDetails> {
                                         ? DateFormat(
                                           'hh : mm a',
                                           settingsProvider.languageCode,
-                                        ).format(widget.event.dateTime)
+                                        ).format(event.dateTime)
                                         : selectedTime!.format(context),
                                     style: textTheme.titleMedium!.copyWith(
                                       color: Apptheme.primary,
@@ -513,13 +562,13 @@ class _EventDetailsState extends State<EventDetails> {
                         clipBehavior: Clip.antiAlias,
                         borderRadius: BorderRadiusGeometry.circular(16),
                         child: Image.asset(
-                          'assets/images/${widget.event.category.imageName}.png',
+                          'assets/images/${event.category.imageName}.png',
                           height: MediaQuery.sizeOf(context).height * 0.25,
                           fit: BoxFit.fill,
                         ),
                       ),
                       const SizedBox(height: 16),
-                      Text(widget.event.title, style: textTheme.headlineMedium),
+                      Text(event.title, style: textTheme.headlineMedium),
                       const SizedBox(height: 16),
                       Container(
                         padding: EdgeInsets.all(8),
@@ -548,7 +597,7 @@ class _EventDetailsState extends State<EventDetails> {
                                   DateFormat(
                                     'dd MMMM yyyy',
                                     settingsProvider.languageCode,
-                                  ).format(widget.event.dateTime),
+                                  ).format(event.dateTime),
                                   style: textTheme.titleMedium!.copyWith(
                                     color: Apptheme.primary,
                                   ),
@@ -557,7 +606,7 @@ class _EventDetailsState extends State<EventDetails> {
                                   DateFormat(
                                     'hh : mm a',
                                     settingsProvider.languageCode,
-                                  ).format(widget.event.dateTime),
+                                  ).format(event.dateTime),
                                   style: textTheme.titleMedium!.copyWith(
                                     color:
                                         settingsProvider.isDark
@@ -607,13 +656,242 @@ class _EventDetailsState extends State<EventDetails> {
                         ),
                       ),
                       const SizedBox(height: 16),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.all(8),
+                          backgroundColor:
+                              settingsProvider.isDark
+                                  ? Apptheme.darkModeBackGround
+                                  : Apptheme.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadiusGeometry.circular(16),
+                            side: BorderSide(color: Apptheme.primary),
+                          ),
+                        ),
+                        onPressed: () {
+                          showModalBottomSheet(
+                            // isScrollControlled: true,
+                            backgroundColor:
+                                settingsProvider.isDark
+                                    ? Apptheme.darkModeBackGround
+                                    : Apptheme.lightModeBackGround,
+                            enableDrag: true,
+                            elevation: 50,
+                            isDismissible: true,
+                            useSafeArea: true,
+                            context: context,
+                            builder:
+                                (context) => Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 30.0,
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              CupertinoIcons
+                                                  .chevron_compact_down,
+                                              color: Apptheme.grey,
+                                              size: 50,
+                                            ),
+                                            // Profile Avatar
+                                            Container(
+                                              width: 250,
+                                              height: 250,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                gradient: LinearGradient(
+                                                  colors:
+                                                      settingsProvider.isDark
+                                                          ? [
+                                                            Apptheme.primary,
+                                                            Apptheme.red,
+                                                          ]
+                                                          : [
+                                                            Apptheme.primary,
+                                                            Apptheme.grey,
+                                                          ],
+                                                  begin: Alignment.topLeft,
+                                                  end: Alignment.bottomRight,
+                                                ),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Apptheme.primary
+                                                        .withValues(alpha: 0.3),
+                                                    spreadRadius: 0,
+                                                    blurRadius: 25,
+                                                    offset: const Offset(0, 8),
+                                                  ),
+                                                ],
+                                              ),
+                                              child: const Icon(
+                                                Icons.person,
+                                                size: 105,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+
+                                            const SizedBox(height: 32),
+
+                                            // Creator Name
+                                            Text(
+                                              event.userCreatedThisEventName,
+                                              style: TextStyle(
+                                                fontSize: 24,
+                                                fontWeight: FontWeight.w600,
+                                                color:
+                                                    settingsProvider.isDark
+                                                        ? Apptheme.white
+                                                        : Apptheme.black,
+                                              ),
+                                            ),
+
+                                            const SizedBox(height: 16),
+
+                                            // Creator Email
+                                            Text(
+                                              event.userCreatedThisEventEmail,
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                color: Apptheme.grey,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+
+                                      const SizedBox(height: 16),
+                                      // Contact Button
+                                      SizedBox(
+                                        width: double.infinity,
+                                        child: DefaultElevatedButton(
+                                          text: localizations.contact_creator,
+                                          onPressed: () async {
+                                            String? encodeQueryParameters(
+                                              Map<String, String> params,
+                                            ) {
+                                              return params.entries
+                                                  .map(
+                                                    (e) =>
+                                                        '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}',
+                                                  )
+                                                  .join('&');
+                                            }
+
+                                            final Uri emailLaunchUri = Uri(
+                                              scheme: 'mailto',
+                                              path:
+                                                  event
+                                                      .userCreatedThisEventEmail,
+                                              query: encodeQueryParameters({
+                                                'subject':
+                                                    'About Event: ${event.title}',
+                                                'body':
+                                                    'Hello ${event.userCreatedThisEventName},\n\n',
+                                              }),
+                                            );
+                                            try {
+                                              await launchUrl(emailLaunchUri);
+                                            } catch (e) {
+                                              if (!mounted) return;
+                                              DelightToastBar(
+                                                position:
+                                                    DelightSnackbarPosition.top,
+                                                autoDismiss: true,
+                                                snackbarDuration: Duration(
+                                                  seconds: 2,
+                                                ),
+                                                builder: (context) {
+                                                  return ToastCard(
+                                                    color: Apptheme.red,
+                                                    leading: SizedBox(
+                                                      width: 30,
+                                                      height: 30,
+                                                      child: Transform.scale(
+                                                        scale: 3,
+                                                        child: Lottie.asset(
+                                                          'assets/lottie/Failed.json',
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    title: Text(
+                                                      localizations
+                                                          .could_not_launch_email_client,
+                                                      style: textTheme
+                                                          .titleMedium!
+                                                          .copyWith(
+                                                            color:
+                                                                Apptheme.white,
+                                                          ),
+                                                    ),
+                                                  );
+                                                },
+                                              ).show(context);
+                                            }
+                                          },
+                                        ),
+                                      ),
+
+                                      const SizedBox(height: 40),
+                                    ],
+                                  ),
+                                ),
+                          );
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            CircleAvatar(
+                              backgroundColor: Apptheme.white.withValues(
+                                alpha: 0.7,
+                              ),
+                              radius: 25,
+                              // backgroundImage:
+                              //     userProvider.currentUser!.imageUrl != null
+                              //         ? NetworkImage(userProvider.currentUser!.imageUrl!)
+                              //         : null,
+                              child:
+                              // userProvider.currentUser!.imageUrl == null
+                              /* ? */ Icon(
+                                CupertinoIcons.person_fill,
+                                size: 25,
+                                color: Apptheme.black,
+                              ),
+                              // : null,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              '${localizations.created_by} ${event.userCreatedThisEventName}, ${localizations.details}',
+                              style: textTheme.titleMedium!.copyWith(
+                                color: Apptheme.primary,
+                              ),
+                            ),
+                            Spacer(),
+                            Icon(
+                              CupertinoIcons.forward,
+                              size: 24,
+                              color: Apptheme.primary,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
                       Container(
                         height: size.height * 0.36,
                         decoration: BoxDecoration(
                           border: Border.all(color: Apptheme.primary),
                           borderRadius: BorderRadius.circular(16),
                         ),
-                        child: Center(child: Text('Map')),
+                        child: Center(
+                          child: Text(
+                            localizations.map,
+                            style: textTheme.titleLarge,
+                          ),
+                        ),
                       ),
                       const SizedBox(height: 16),
                       Text(
@@ -627,7 +905,7 @@ class _EventDetailsState extends State<EventDetails> {
                         textAlign: TextAlign.start,
                       ),
                       Text(
-                        widget.event.description,
+                        event.description,
                         style: textTheme.titleMedium!.copyWith(
                           color:
                               settingsProvider.isDark
@@ -643,54 +921,68 @@ class _EventDetailsState extends State<EventDetails> {
   }
 
   void updateEvent() {
-    if (_formKey.currentState!.validate() &&
-        selectedDate != null &&
-        selectedTime != null) {
-      DateTime dateTime = DateTime(
-        selectedDate!.year,
-        selectedDate!.month,
-        selectedDate!.day,
-        selectedTime!.hour,
-        selectedTime!.minute,
-      );
-      EventModel event = EventModel(
-        id: widget.event.id,
+    if (_formKey.currentState!.validate()) {
+      DateTime dateTime;
+      if (selectedDate != null && selectedTime != null) {
+        dateTime = DateTime(
+          selectedDate!.year,
+          selectedDate!.month,
+          selectedDate!.day,
+          selectedTime!.hour,
+          selectedTime!.minute,
+        );
+      } else {
+        dateTime = event.dateTime;
+      }
+      EventModel updatedEvent = EventModel(
+        id: event.id,
         userId: FirebaseAuth.instance.currentUser!.uid,
         userCreatedThisEventName: userName,
-        title: _eventController.text,
-        description: _descriptionController.text,
+        userCreatedThisEventEmail: userEmail,
+        title:
+            _eventController.text.isEmpty ? event.title : _eventController.text,
+        description:
+            _descriptionController.text.isEmpty
+                ? event.description
+                : _descriptionController.text,
         category: selectedCategory,
         dateTime: dateTime,
       );
-      FirebaseServices.updateEventDetails(event.id, event).then((_) {
-        Navigator.of(context).pop();
-        Provider.of<EventProvider>(context, listen: false).getEvents();
-        DelightToastBar(
-          position: DelightSnackbarPosition.top,
-          autoDismiss: true,
-          snackbarDuration: Duration(seconds: 2),
-          builder: (context) {
-            return ToastCard(
-              color: Colors.green,
-              leading: SizedBox(
-                width: 30,
-                height: 30,
-                child: Transform.scale(
-                  scale: 4,
-                  child: Lottie.asset('assets/lottie/successfully2.json'),
+      FirebaseServices.updateEventDetails(updatedEvent.id, updatedEvent).then((
+        _,
+      ) {
+        Provider.of<EventProvider>(context, listen: false).getEvents().then((
+          _,
+        ) {
+          if (!mounted) return;
+          Navigator.of(context).pop();
+          DelightToastBar(
+            position: DelightSnackbarPosition.top,
+            autoDismiss: true,
+            snackbarDuration: Duration(seconds: 2),
+            builder: (context) {
+              return ToastCard(
+                color: Colors.green,
+                leading: SizedBox(
+                  width: 30,
+                  height: 30,
+                  child: Transform.scale(
+                    scale: 4,
+                    child: Lottie.asset('assets/lottie/successfully2.json'),
+                  ),
                 ),
-              ),
-              title: Text(
-                AppLocalizations.of(context)!.event_added_successfully,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: Apptheme.white,
+                title: Text(
+                  AppLocalizations.of(context)!.event_added_successfully,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Apptheme.white,
+                  ),
                 ),
-              ),
-            );
-          },
-        ).show(context);
+              );
+            },
+          ).show(context);
+        });
       });
     }
   }
