@@ -1,3 +1,4 @@
+import 'package:eventlyy/FireBase/firebase_services.dart'; // Importing FirebaseServices
 import 'package:eventlyy/Providers/settings_provider.dart';
 import 'package:eventlyy/Providers/user_provider.dart';
 import 'package:eventlyy/Screens/Auth/login_screen.dart';
@@ -159,12 +160,15 @@ class ProfileTab extends StatelessWidget {
                             SizedBox(width: 16),
                             DefaultElevatedButton(
                               text: localizations.profile_tab_logout,
-                              onPressed: () {
-                                userProvider.updateCurrentUser(null);
+                              onPressed: () async {
                                 Navigator.of(context).pop();
-                                Navigator.of(
-                                  context,
-                                ).pushReplacementNamed(LoginScreen.routeName);
+                                final SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
+                                await prefs.setBool('isLoggedIn', false);
+                                await FirebaseServices.logOut();
+                                userProvider.updateCurrentUser(null);
+                                Navigator.of(context)
+                                    .pushReplacementNamed(LoginScreen.routeName);
                               },
                             ),
                           ],
