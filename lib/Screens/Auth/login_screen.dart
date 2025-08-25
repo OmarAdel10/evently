@@ -17,6 +17,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = '/login';
@@ -228,8 +229,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                       email: _emailcontroller.text,
                                       password: _passwordcontroller.text,
                                     )
-                                    .then((user) {
-                                      Provider.of<UserProvider>(
+                                    .then((user) async {
+                                      final SharedPreferences prefs =
+                                          await SharedPreferences.getInstance();
+                                      await prefs.setBool('isLoggedIn', true);
+                                      await Provider.of<UserProvider>(
                                         context,
                                         listen: false,
                                       ).updateCurrentUser(user);
