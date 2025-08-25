@@ -1,5 +1,5 @@
 import 'package:eventlyy/Providers/settings_provider.dart';
-import 'package:eventlyy/Screens/Auth/login_screen.dart';
+import 'package:eventlyy/Screens/Auth/register_screen.dart';
 import 'package:eventlyy/Screens/Home/Tabs/profileTab/language.dart';
 import 'package:eventlyy/Screens/onboarding/onboarding.dart';
 import 'package:eventlyy/Widgets/default_elevated_button.dart';
@@ -145,12 +145,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 onPressed: () async {
                                   if (currentindex ==
                                       Onboarding.images.length - 1) {
+                                    Navigator.of(context).pushReplacementNamed(
+                                      RegisterScreen.routeName,
+                                    );
                                     final prefs =
                                         await SharedPreferences.getInstance();
                                     await prefs.setBool('showHome', true);
-                                    Navigator.of(context).pushReplacementNamed(
-                                      LoginScreen.routeName,
-                                    );
                                   } else {
                                     _controller.nextPage(
                                       duration: Duration(milliseconds: 300),
