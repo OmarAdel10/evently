@@ -19,13 +19,12 @@ import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:redacted/redacted.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class EventDetails extends StatefulWidget {
   static const String routeName = '/event-details';
-  final EventModel event;
 
-  const EventDetails({super.key, required this.event});
-
+  const EventDetails({super.key});
   @override
   State<EventDetails> createState() => _EventDetailsState();
 }
