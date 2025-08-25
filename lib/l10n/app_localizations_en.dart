@@ -98,7 +98,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profile => 'Profile';
 
   @override
-  String get love_tab_search_for_event => 'Search For Event';
+  String get love_tab_search_for_event_by_title_or_description =>
+      'Search For Event By Title Or Description';
 
   @override
   String get profile_tab_logout => 'Logout';
@@ -236,4 +237,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settings_updated_successfully => 'Settings Updated Successfully !';
+
+  @override
+  String get no_events_found => 'No Events Found';
+
+  @override
+  String get no_favourite_events_found => 'No Favourite Events Found';
+
+  @override
+  String get details => 'Details';
+
+  @override
+  String get contact_creator => 'Contact Creator';
+
+  @override
+  String get could_not_launch_email_client => 'Could not launch email client';
 }

@@ -266,11 +266,11 @@ abstract class AppLocalizations {
   /// **'Profile'**
   String get profile;
 
-  /// No description provided for @love_tab_search_for_event.
+  /// No description provided for @love_tab_search_for_event_by_title_or_description.
   ///
   /// In en, this message translates to:
-  /// **'Search For Event'**
-  String get love_tab_search_for_event;
+  /// **'Search For Event By Title Or Description'**
+  String get love_tab_search_for_event_by_title_or_description;
 
   /// No description provided for @profile_tab_logout.
   ///
@@ -535,6 +535,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Settings Updated Successfully !'**
   String get settings_updated_successfully;
+
+  /// No description provided for @no_events_found.
+  ///
+  /// In en, this message translates to:
+  /// **'No Events Found'**
+  String get no_events_found;
+
+  /// No description provided for @no_favourite_events_found.
+  ///
+  /// In en, this message translates to:
+  /// **'No Favourite Events Found'**
+  String get no_favourite_events_found;
+
+  /// No description provided for @details.
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get details;
+
+  /// No description provided for @contact_creator.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Creator'**
+  String get contact_creator;
+
+  /// No description provided for @could_not_launch_email_client.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not launch email client'**
+  String get could_not_launch_email_client;
 }
 
 class _AppLocalizationsDelegate

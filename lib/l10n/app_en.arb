@@ -28,7 +28,7 @@
   "map": "Map",
   "love": "Love",
   "profile": "Profile",
-  "love_tab_search_for_event": "Search For Event",
+  "love_tab_search_for_event_by_title_or_description": "Search For Event By Title Or Description",
   "profile_tab_logout": "Logout",
   "create_event_screen_create_event": "Create Event",
   "title": "Title",
@@ -72,5 +72,11 @@
   "event_removed_successfully": "Event Removed Successfully !",
   "error": "An error occurred.",
   "update_settings": "Update Settings",
-  "settings_updated_successfully": "Settings Updated Successfully !"
+  "settings_updated_successfully": "Settings Updated Successfully !",
+  "no_events_found": "No Events Found",
+  "no_favourite_events_found": "No Favourite Events Found",
+  "details": "Details",
+  "contact_creator": "Contact Creator",
+  "could_not_launch_email_client": "Could not launch email client"
+
 }

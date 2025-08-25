@@ -98,7 +98,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profile => 'الملف الشخصي';
 
   @override
-  String get love_tab_search_for_event => 'البحث عن حدث';
+  String get love_tab_search_for_event_by_title_or_description =>
+      'البحث عن حدث حسب العنوان أو الوصف';
 
   @override
   String get profile_tab_logout => 'تسجيل الخروج';
@@ -236,4 +237,19 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get settings_updated_successfully => 'تم تحديث الإعدادات بنجاح !';
+
+  @override
+  String get no_events_found => 'لا توجد أحداث';
+
+  @override
+  String get no_favourite_events_found => 'لا توجد أحداث مفضلة';
+
+  @override
+  String get details => 'التفاصيل';
+
+  @override
+  String get contact_creator => 'الاتصال بالمنشئ';
+
+  @override
+  String get could_not_launch_email_client => 'تعذر فتح عميل البريد الإلكتروني';
 }
