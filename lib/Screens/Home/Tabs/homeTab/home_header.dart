@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 
 class HomeHeader extends StatefulWidget {
   void Function(CategoryModel? category) selectedCategoryName;
-  HomeHeader({required this.selectedCategoryName});
+  HomeHeader({super.key, required this.selectedCategoryName});
   @override
   State<HomeHeader> createState() => _HomeHeaderState();
 }
@@ -54,7 +54,7 @@ class _HomeHeaderState extends State<HomeHeader> {
                     style: textTheme.titleSmall,
                   ),
                   Text(
-                    userProvider.currentUser!.name,
+                    userProvider.currentUser?.name ?? 'User',
                     style: textTheme.headlineSmall,
                   ),
                 ],

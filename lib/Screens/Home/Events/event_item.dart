@@ -39,6 +39,7 @@ class EventItem extends StatelessWidget {
               child: Image.asset(
                 'assets/images/${event.category.imageName}.png',
                 height: MediaQuery.sizeOf(context).height * 0.24,
+                fit: BoxFit.fill,
               ),
             ),
             Container(

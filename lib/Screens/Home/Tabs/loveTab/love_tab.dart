@@ -1,7 +1,9 @@
 import 'package:eventlyy/Providers/event_provider.dart';
+import 'package:eventlyy/Providers/settings_provider.dart';
 import 'package:eventlyy/Providers/user_provider.dart';
 import 'package:eventlyy/Screens/Home/Events/event_item.dart';
 import 'package:eventlyy/Widgets/default_text_field.dart';
+import 'package:eventlyy/apptheme.dart';
 import 'package:eventlyy/l10n/app_localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +46,7 @@ class _LoveTabState extends State<LoveTab> {
         child: Column(
           children: [
             DefaultTextField(
-              text: localizations.love_tab_search_for_event,
+              text: localizations.love_tab_search_for_event_by_title_or_description,
               controller: _searchController,
               hasPrefix: true,
               icon: CupertinoIcons.search,
@@ -74,8 +76,18 @@ class _LoveTabState extends State<LoveTab> {
                               Lottie.asset('assets/lottie/EmptyBox.json'),
                               const SizedBox(height: 16),
                               Text(
-                                'No Favourite Events Found',
-                                style: Theme.of(context).textTheme.titleMedium,
+                                localizations.no_favourite_events_found,
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.titleMedium!.copyWith(
+                                  color:
+                                      Provider.of<SettingsProvider>(
+                                            context,
+                                            listen: false,
+                                          ).isDark
+                                          ? Apptheme.white
+                                          : Apptheme.black,
+                                ),
                               ),
                             ],
                           )

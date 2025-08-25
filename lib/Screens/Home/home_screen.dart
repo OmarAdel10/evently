@@ -20,15 +20,41 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
-  List<Widget> tabs = [HomeTab(), MapTab(), HomeTab(),LoveTab(), ProfileTab()];
 
   @override
   Widget build(BuildContext context) {
-        AppLocalizations localizations = AppLocalizations.of(context)!;
+    List<Widget> tabs = [
+      HomeTab(),
+      MapTab(),
+      HomeTab(),
+      LoveTab(),
+      ProfileTab(),
+    ];
+    AppLocalizations localizations = AppLocalizations.of(context)!;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: tabs[_currentIndex],
+      body: Column(
+        children: [
+          Expanded(child: tabs[_currentIndex]),
+          // Container(
+          //   height: 36,
+          //   decoration: BoxDecoration(
+          //     backgroundBlendMode: BlendMode.screen,
+          //     gradient: LinearGradient(
+          //       begin: Alignment.bottomCenter,
+          //       end: Alignment.topCenter,
+          //       colors: [
+          //         Colors.transparent,
+          //         Provider.of<SettingsProvider>(context, listen: false).isDark
+          //             ? Apptheme.darkModeBackGround
+          //             : Apptheme.lightModeBackGround,
+          //       ],
+          //     ),
+          //   ),
+          // ),
+        ],
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         heroTag: 'create-event',
