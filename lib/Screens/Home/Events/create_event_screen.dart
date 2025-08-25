@@ -40,16 +40,22 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   CategoryModel selectedCategory = CategoryModel.categories.first;
   late bool isLoading;
   late String userName;
+  late String userEmail;
 
   @override
   void initState() {
     super.initState();
     getUserNAME();
+    getUserEMAIL();
     isLoadingShimmer();
   }
 
   Future<void> getUserNAME() async {
     userName = await FirebaseServices.getUserName();
+  }
+
+  Future<void> getUserEMAIL() async {
+    userEmail = await FirebaseServices.getUserEmail();
   }
 
   Future<void> isLoadingShimmer() async {
@@ -333,6 +339,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                 : Apptheme.black,
                       ),
                     ),
+                    const SizedBox(height: 8),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.all(8),
@@ -415,6 +422,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
       EventModel event = EventModel(
         userId: FirebaseAuth.instance.currentUser!.uid,
         userCreatedThisEventName: userName,
+        userCreatedThisEventEmail: userEmail,
         title: _eventController.text,
         description: _descriptionController.text,
         category: selectedCategory,
