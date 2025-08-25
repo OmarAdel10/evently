@@ -5,6 +5,7 @@ class EventModel {
   String id;
   String userId;
   String userCreatedThisEventName;
+  String userCreatedThisEventEmail;
   String title;
   String description;
   CategoryModel category;
@@ -14,6 +15,7 @@ class EventModel {
     this.id = '',
     required this.userId,
     required this.userCreatedThisEventName,
+    required this.userCreatedThisEventEmail,
     required this.title,
     required this.description,
     required this.category,
@@ -24,6 +26,7 @@ class EventModel {
     id: json['id'],
     userId: json['userId'],
     userCreatedThisEventName: json['userCreatedThisEventName'],
+    userCreatedThisEventEmail: json['userCreatedThisEventEmail'],
     title: json['title'],
     description: json['description'],
     category: CategoryModel.categories.firstWhere((category) => category.id == json['category']),
@@ -34,6 +37,7 @@ class EventModel {
     'id': id,
     'userId': userId,
     'userCreatedThisEventName': userCreatedThisEventName,
+    'userCreatedThisEventEmail': userCreatedThisEventEmail,
     'title': title,
     'description': description,
     'category': category.id,
