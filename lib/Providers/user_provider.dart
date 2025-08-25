@@ -2,16 +2,36 @@ import 'dart:io';
 
 import 'package:eventlyy/FireBase/firebase_services.dart';
 import 'package:eventlyy/Models/user_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserProvider with ChangeNotifier {
   UserModel? currentUser;
 
-  void updateCurrentUser(UserModel? user) {
+  Future<void> updateCurrentUser(UserModel? user) async {
     currentUser = user;
     notifyListeners();
+  }
+
+  Future<void> initializeFromSavedLogin() async {
+    final prefs = await SharedPreferences.getInstance();
+    final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+
+    if (isLoggedIn) {
+      final firebaseUser = FirebaseAuth.instance.currentUser;
+      if (firebaseUser != null) {
+        final userDoc =
+            await FirebaseServices.getUserCollection()
+                .doc(firebaseUser.uid)
+                .get();
+        if (userDoc.exists) {
+          await updateCurrentUser(userDoc.data());
+        }
+      }
+    }
   }
 
   bool checkIsEventFavourite(String eventId) {
